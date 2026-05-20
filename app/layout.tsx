@@ -26,19 +26,35 @@ const dmMono = DM_Mono({
   weight: ["400", "500"],
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  "https://arc-oabdelrazek29s-projects.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   applicationName: "ARC",
   title: {
     default: "ARC — Cognitive Learning OS",
     template: "%s | ARC",
   },
   description:
-    "ARC models how you think and learn — adaptive cognitive graphs, AI advisor, and evolving intelligence.",
+    "Learn anything, but actually understand it. ARC builds a path that adapts as you go.",
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/apple-icon.svg", type: "image/svg+xml" }],
+  },
   openGraph: {
     siteName: "ARC",
     title: "ARC — Cognitive Learning OS",
     description:
-      "Adaptive cognitive graphs, AI advisor, and evolving intelligence.",
+      "Learn anything, but actually understand it. ARC builds a path that adapts as you go.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ARC — Cognitive Learning OS",
+    description:
+      "Learn anything, but actually understand it. ARC builds a path that adapts as you go.",
   },
 };
 
