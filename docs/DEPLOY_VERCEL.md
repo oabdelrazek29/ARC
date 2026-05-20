@@ -57,6 +57,18 @@ If you want preview URLs public too, disable protection for **Preview** deployme
 
 Optional: add a custom domain under **Settings** → **Domains**.
 
+### CLI (same as dashboard)
+
+From the repo folder, linked to project **arc**:
+
+```bash
+vercel project protection disable arc --sso
+```
+
+Confirm with `vercel project protection arc` — `ssoProtection` should be `false`.
+
+See also `docs/PUBLIC_ACCESS.md` for what visitors vs signed-in users can open.
+
 ## 5. Redeploy
 
 After env vars are set: **Deployments** → ⋮ on latest → **Redeploy**.
