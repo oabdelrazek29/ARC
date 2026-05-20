@@ -20,32 +20,35 @@ const ITEMS = [
 
 function SystemExplanationPanelInner() {
   return (
-    <section className="grid gap-4 md:grid-cols-3">
-      {ITEMS.map((item) => (
-        <div
-          key={item.title}
-          className="rounded-xl border border-zinc-800/60 bg-zinc-950/50 px-4 py-5"
-        >
-          <h3 className="text-sm font-medium text-cyan-300/90">{item.title}</h3>
-          <p className="mt-2 text-xs leading-relaxed text-zinc-500">{item.body}</p>
-        </div>
-      ))}
-      <div className="md:col-span-3 flex flex-wrap justify-center gap-4 pt-4">
+    <section>
+      <div className="arc-feature-grid">
+        {ITEMS.map((item) => (
+          <div key={item.title} className="arc-card">
+            <h3 className="arc-heading text-sm text-[var(--arc-accent)]">
+              {item.title}
+            </h3>
+            <p className="mt-2 text-xs leading-relaxed text-[var(--arc-muted)]">
+              {item.body}
+            </p>
+          </div>
+        ))}
+      </div>
+      <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm">
         <Link
           href="/dashboard"
-          className="text-sm text-zinc-400 underline-offset-4 hover:text-cyan-400 hover:underline"
+          className="text-[var(--arc-muted)] hover:text-[var(--arc-fg)]"
         >
-          Enter dashboard
+          Dashboard
         </Link>
         <Link
           href="/cognitive"
-          className="text-sm text-zinc-400 underline-offset-4 hover:text-cyan-400 hover:underline"
+          className="text-[var(--arc-muted)] hover:text-[var(--arc-fg)]"
         >
           Cognitive OS
         </Link>
         <Link
           href="/classic"
-          className="text-sm text-zinc-600 underline-offset-4 hover:text-zinc-400 hover:underline"
+          className="text-[var(--arc-muted)] hover:text-[var(--arc-fg)]"
         >
           Classic landing
         </Link>

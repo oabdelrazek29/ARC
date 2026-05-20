@@ -14,8 +14,8 @@ export function CognitiveNav() {
   const pathname = usePathname();
 
   return (
-    <div className="mb-6 flex flex-wrap items-center gap-2 border-b border-zinc-800/80 pb-4">
-      <span className="mr-2 font-bricolage text-sm font-semibold uppercase tracking-wider text-cyan-400/90">
+    <div className="mb-6 flex flex-wrap items-center gap-2 border-b border-[var(--arc-border)] pb-4">
+      <span className="arc-mono text-xs font-medium uppercase tracking-wider text-[var(--arc-accent)]">
         ARC Cognitive
       </span>
       {links.map((l) => (
@@ -25,8 +25,8 @@ export function CognitiveNav() {
           className={cn(
             "rounded-lg px-3 py-1.5 text-sm transition-colors",
             pathname === l.href || pathname.startsWith(`${l.href}/`)
-              ? "bg-cyan-500/15 text-cyan-300"
-              : "text-zinc-500 hover:bg-zinc-800/60 hover:text-zinc-200"
+              ? "bg-[var(--arc-accent)]/10 text-[var(--arc-accent)]"
+              : "text-[var(--arc-muted)] hover:text-[var(--arc-fg)]"
           )}
         >
           {l.label}
@@ -34,9 +34,9 @@ export function CognitiveNav() {
       ))}
       <Link
         href="/dashboard"
-        className="ml-auto text-sm text-zinc-600 hover:text-zinc-400"
+        className="ml-auto text-sm text-[var(--arc-muted)] hover:text-[var(--arc-fg)]"
       >
-        ← Classic dashboard
+        ← Dashboard
       </Link>
     </div>
   );

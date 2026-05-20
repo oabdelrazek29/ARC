@@ -25,7 +25,7 @@ const CognitiveGraphCanvas = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-[520px] items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-950/60 text-zinc-500">
+      <div className="flex h-[520px] items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-950/60 text-[var(--arc-muted)]">
         Loading cognitive graph…
       </div>
     ),
@@ -66,9 +66,9 @@ export default function CognitiveGraphPage() {
 
   if (!graph) {
     return (
-      <div className="py-20 text-center text-zinc-500">
+      <div className="py-20 text-center text-[var(--arc-muted)]">
         Graph not found.{" "}
-        <Link href="/cognitive/new" className="text-cyan-400 hover:underline">
+        <Link href="/cognitive/new" className="text-[var(--arc-accent)] hover:underline">
           Create one
         </Link>
       </div>
@@ -78,16 +78,14 @@ export default function CognitiveGraphPage() {
   return (
     <div className="flex flex-col gap-6">
       <header>
-        <h1 className="font-bricolage text-2xl font-bold text-white">
-          {graph.title}
-        </h1>
+        <h1 className="arc-heading text-2xl">{graph.title}</h1>
         <GraphHeatmapLegend />
       </header>
 
       <LearningModePanel />
 
       <div className="flex flex-col gap-6 xl:flex-row">
-        <div className="min-h-[520px] flex-1">
+        <div className="arc-graph-surface min-h-[520px] flex-1">
           <CognitiveGraphCanvas
             graph={graph}
             onNodeSelect={onSelect}
@@ -114,8 +112,8 @@ export default function CognitiveGraphPage() {
         </div>
       </div>
 
-      <p className="text-center text-xs text-zinc-600">
-        <Link href={`/cognitive/workspace/${graph.id}`} className="text-cyan-500 hover:underline">
+      <p className="text-center text-xs text-[var(--arc-muted)]">
+        <Link href={`/cognitive/workspace/${graph.id}`} className="text-[var(--arc-accent)] hover:underline">
           Open full workspace view →
         </Link>
       </p>

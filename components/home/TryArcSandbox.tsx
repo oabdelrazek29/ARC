@@ -3,8 +3,8 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 
+import { ArcButton } from "@/components/arc-ui/ArcButton";
 import { MiniGraphSvg } from "@/components/home/MiniGraphSvg";
-import { Button } from "@/components/ui/button";
 import {
   buildPreviewGraph,
   tickPreviewGraph,
@@ -30,43 +30,41 @@ function TryArcSandboxInner() {
   }, [preview?.goal]);
 
   return (
-    <section className="rounded-2xl border border-cyan-500/20 bg-zinc-950/70 p-6">
-      <h2 className="font-bricolage text-lg font-semibold text-white">
-        Try ARC
-      </h2>
-      <p className="mt-1 text-xs text-zinc-500">
+    <section className="arc-card border-[var(--arc-accent)]/20">
+      <h2 className="arc-heading text-lg">Try ARC</h2>
+      <p className="mt-1 text-xs text-[var(--arc-muted)]">
         Preview sandbox · no sign-in · no API
       </p>
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && runPreview()}
-        className="mt-4 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white outline-none focus:border-cyan-500/40"
+        className="mt-4 w-full rounded-lg border border-[var(--arc-border)] bg-[var(--arc-bg)] px-3 py-2 text-sm outline-none focus:border-[var(--arc-accent)]"
         placeholder="I want to learn…"
       />
-      <Button className="mt-3 w-full" onClick={runPreview}>
+      <ArcButton className="mt-3 w-full" onClick={runPreview}>
         Simulate preview
-      </Button>
+      </ArcButton>
 
       {preview && (
         <div className="mt-6 space-y-4">
           <MiniGraphSvg
             nodes={preview.nodes}
             edges={preview.edges}
-            className="h-44 w-full rounded-lg border border-zinc-800/60 bg-zinc-900/50"
+            className="h-44 w-full rounded-xl border border-[var(--arc-border)]"
             heatmap
           />
-          <div className="rounded-lg border border-violet-500/20 bg-violet-500/5 px-3 py-2 text-xs text-violet-200/90">
-            <span className="text-[10px] uppercase text-violet-400/80">
+          <div className="rounded-xl border border-[var(--arc-accent)]/20 bg-[var(--arc-accent)]/5 px-3 py-2 text-xs">
+            <span className="arc-mono text-[10px] uppercase text-[var(--arc-accent)]">
               Advisor (simulated)
             </span>
-            <p className="mt-1 leading-relaxed">{preview.advisorLine}</p>
+            <p className="mt-1 leading-relaxed text-[var(--arc-muted)]">
+              {preview.advisorLine}
+            </p>
           </div>
-          <Link href="/cognitive/new">
-            <Button variant="outline" className="w-full">
-              Enter full cognitive system →
-            </Button>
-          </Link>
+          <ArcButton href="/cognitive/new" variant="secondary" className="w-full">
+            Enter full cognitive system →
+          </ArcButton>
         </div>
       )}
     </section>

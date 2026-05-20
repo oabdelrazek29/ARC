@@ -1,39 +1,44 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
+import { DM_Mono, DM_Sans, Syne } from "next/font/google";
 
 import { Navbar } from "@/components/layout/Navbar";
 import { AuthProvider } from "@/components/providers/AuthProvider";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 import "./globals.css";
+import "./arc-theme.css";
 
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
+const syne = Syne({
+  variable: "--font-syne",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const dmMono = DM_Mono({
+  variable: "--font-dm-mono",
   subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
   applicationName: "ARC",
   title: {
-    default: "ARC — Turn Any Goal Into a Skill Tree",
+    default: "ARC — Cognitive Learning OS",
     template: "%s | ARC",
   },
   description:
-    "AI-powered adaptive learning. RPG-style skill trees, XP, boss battles, and mastery paths.",
+    "ARC models how you think and learn — adaptive cognitive graphs, AI advisor, and evolving intelligence.",
   openGraph: {
     siteName: "ARC",
-    title: "ARC — Turn Any Goal Into a Skill Tree",
+    title: "ARC — Cognitive Learning OS",
     description:
-      "AI-powered adaptive learning. RPG-style skill trees, XP, boss battles, and mastery paths.",
+      "Adaptive cognitive graphs, AI advisor, and evolving intelligence.",
   },
 };
 
@@ -43,14 +48,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${bricolage.variable} ${geistSans.variable} ${geistMono.variable} min-h-screen bg-zinc-950 font-sans text-zinc-100 antialiased`}
+        className={`${syne.variable} ${dmSans.variable} ${dmMono.variable} antialiased`}
       >
-        <AuthProvider>
-          <Navbar />
-          <main>{children}</main>
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <Navbar />
+            <main className="arc-main">{children}</main>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

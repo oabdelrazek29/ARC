@@ -6,8 +6,9 @@ import { useParams } from "next/navigation";
 import { useCallback, useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 
+import { PillBadge } from "@/components/arc-ui/PillBadge";
 import { ArcCoach } from "@/components/arc/ArcCoach";
-import { Button } from "@/components/ui/button";
+import { ArcButton } from "@/components/arc-ui/ArcButton";
 import { NODE_TYPE_LABELS } from "@/constants/arc";
 import { useArcStore } from "@/store/arc-store";
 import type { SkillNode } from "@/types/arc";
@@ -49,9 +50,9 @@ export default function TreePage() {
 
   if (!tree) {
     return (
-      <div className="mx-auto max-w-lg px-4 py-20 text-center text-zinc-400">
+      <div className="arc-page arc-dot-grid py-20 text-center text-[var(--arc-muted)]">
         Tree not found.{" "}
-        <Link href="/goals/new" className="text-cyan-400 hover:underline">
+        <Link href="/goals/new" className="text-[var(--arc-accent)] hover:underline">
           Create a goal
         </Link>
       </div>
@@ -59,57 +60,58 @@ export default function TreePage() {
   }
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 lg:flex-row">
-      <div className="flex-1">
-        <div className="mb-4">
-          <h1 className="font-bricolage text-2xl font-bold text-white">
-            {tree.title}
-          </h1>
-          <p className="text-sm text-zinc-500">
+    <div className="arc-page arc-dot-grid">
+      <div className="arc-section-wide flex max-w-7xl flex-col gap-6 !py-8 lg:flex-row">
+        <div className="flex-1">
+          <PillBadge>Skill tree</PillBadge>
+          <h1 className="arc-heading mt-3 text-2xl">{tree.title}</h1>
+          <p className="arc-mono mt-1 text-xs text-[var(--arc-muted)]">
             Level {progress.level} · {progress.totalXp} XP
           </p>
+          <div className="arc-graph-surface mt-4 min-h-[480px]">
+            <SkillTreeCanvas tree={tree} onNodeSelect={onSelect} />
+          </div>
         </div>
-        <SkillTreeCanvas tree={tree} onNodeSelect={onSelect} />
-      </div>
 
-      <aside className="w-full shrink-0 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 lg:w-80">
-        {selected ? (
-          <>
-            <p className="text-xs uppercase tracking-wider text-cyan-400">
-              {NODE_TYPE_LABELS[selected.nodeType]}
-            </p>
-            <h2 className="mt-2 text-lg font-semibold text-white">
-              {selected.title}
-            </h2>
-            <p className="mt-2 text-sm text-zinc-400">{selected.description}</p>
-            {selected.bossBattle && (
-              <p className="mt-4 rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-sm text-amber-200">
-                Boss: {selected.bossBattle.challenge}
+        <aside className="arc-card w-full shrink-0 lg:w-80">
+          {selected ? (
+            <>
+              <p className="arc-mono text-[10px] uppercase tracking-wider text-[var(--arc-accent)]">
+                {NODE_TYPE_LABELS[selected.nodeType]}
               </p>
-            )}
-            <Button
-              className="mt-6 w-full gap-2"
-              onClick={handleComplete}
-              disabled={selected.completed}
-            >
-              <CheckCircle2 className="h-4 w-4" />
-              {selected.completed
-                ? "Completed"
-                : `Complete (+${selected.xpReward} XP)`}
-            </Button>
-          </>
-        ) : (
-          <p className="text-sm text-zinc-500">
-            Select an unlocked node on the tree to view details and complete it.
-          </p>
-        )}
-      </aside>
+              <h2 className="arc-heading mt-2 text-lg">{selected.title}</h2>
+              <p className="mt-2 text-sm text-[var(--arc-muted)]">
+                {selected.description}
+              </p>
+              {selected.bossBattle && (
+                <p className="mt-4 rounded-xl border border-[var(--arc-accent)]/30 bg-[var(--arc-accent)]/5 p-3 text-sm">
+                  Boss: {selected.bossBattle.challenge}
+                </p>
+              )}
+              <ArcButton
+                className="mt-6 w-full gap-2"
+                onClick={handleComplete}
+                disabled={selected.completed}
+              >
+                <CheckCircle2 className="h-4 w-4" />
+                {selected.completed
+                  ? "Completed"
+                  : `Complete (+${selected.xpReward} XP)`}
+              </ArcButton>
+            </>
+          ) : (
+            <p className="text-sm text-[var(--arc-muted)]">
+              Select an unlocked node on the tree to view details and complete it.
+            </p>
+          )}
+        </aside>
 
-      <ArcCoach
-        goal={goalTitle ?? tree.title}
-        nodeTitle={selected?.title}
-        nodeDescription={selected?.description}
-      />
+        <ArcCoach
+          goal={goalTitle ?? tree.title}
+          nodeTitle={selected?.title}
+          nodeDescription={selected?.description}
+        />
+      </div>
     </div>
   );
 }

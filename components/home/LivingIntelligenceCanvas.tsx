@@ -18,6 +18,11 @@ function LivingIntelligenceCanvasInner({ nodes }: Props) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const accent =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--arc-accent")
+        .trim() || "#22c55e";
+
     const draw = () => {
       const dpr = Math.min(window.devicePixelRatio ?? 1, 2);
       const w = canvas.clientWidth;
@@ -32,8 +37,10 @@ function LivingIntelligenceCanvasInner({ nodes }: Props) {
         const y = n.y * h;
         ctx.beginPath();
         ctx.arc(x, y, n.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(34, 211, 238, ${n.opacity})`;
+        ctx.fillStyle = accent;
+        ctx.globalAlpha = n.opacity * 0.35;
         ctx.fill();
+        ctx.globalAlpha = 1;
       }
 
       for (let i = 0; i < nodes.length; i += 4) {
@@ -43,9 +50,11 @@ function LivingIntelligenceCanvasInner({ nodes }: Props) {
         ctx.beginPath();
         ctx.moveTo(a.x * w, a.y * h);
         ctx.lineTo(b.x * w, b.y * h);
-        ctx.strokeStyle = `rgba(139, 92, 246, ${0.04 + a.opacity * 0.08})`;
+        ctx.strokeStyle = accent;
+        ctx.globalAlpha = 0.04 + a.opacity * 0.06;
         ctx.lineWidth = 0.5;
         ctx.stroke();
+        ctx.globalAlpha = 1;
       }
     };
 
@@ -58,7 +67,7 @@ function LivingIntelligenceCanvasInner({ nodes }: Props) {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none absolute inset-0 h-full w-full opacity-80"
+      className="pointer-events-none absolute inset-0 h-full w-full"
     />
   );
 }

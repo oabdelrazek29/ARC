@@ -14,11 +14,11 @@ function MiniGraphPreviewInner({ worlds }: Props) {
   if (!merged) return null;
 
   return (
-    <section className="rounded-xl border border-zinc-800/60 bg-zinc-950/40 p-4">
-      <h2 className="text-xs font-semibold uppercase tracking-wider text-violet-400/80">
+    <section className="arc-card">
+      <h2 className="arc-mono text-xs font-semibold uppercase tracking-wider text-[var(--arc-muted)]">
         Knowledge heat zones
       </h2>
-      <p className="mt-1 text-[10px] text-zinc-600">
+      <p className="mt-1 text-[10px] text-[var(--arc-muted)]">
         Abstract cluster view · understanding density
       </p>
       <MiniGraphSvg
@@ -27,15 +27,12 @@ function MiniGraphPreviewInner({ worlds }: Props) {
         className="mt-3 h-40 w-full"
         heatmap
       />
-      <div className="mt-2 flex flex-wrap gap-3 text-[10px] text-zinc-500">
+      <div className="mt-2 flex flex-wrap gap-3 arc-mono text-[10px] text-[var(--arc-muted)]">
         <span className="flex items-center gap-1">
-          <span className="h-2 w-2 rounded-full bg-emerald-400" /> stable
+          <span className="h-2 w-2 rounded-full bg-[var(--arc-accent)]" /> stable
         </span>
         <span className="flex items-center gap-1">
           <span className="h-2 w-2 rounded-full bg-amber-400" /> unstable
-        </span>
-        <span className="flex items-center gap-1">
-          <span className="h-2 w-2 rounded-full bg-cyan-400" /> strengthening
         </span>
       </div>
     </section>

@@ -6,7 +6,7 @@ import { CognitiveStoreHydration } from "@/components/cognitive/CognitiveStoreHy
 import "./cognitive.css";
 
 export const metadata: Metadata = {
-  title: "Cognitive OS | ARC",
+  title: "Cognitive OS",
   description:
     "ARC Cognitive Learning Operating System — adaptive mental model graphs, AI advisor, and drift tracking.",
 };
@@ -17,8 +17,8 @@ export default function CognitiveLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="arc-cognitive-bg min-h-[calc(100vh-4rem)]">
-      <div className="mx-auto max-w-7xl px-4 py-8">
+    <div className="arc-cognitive-wrap arc-dot-grid">
+      <div className="arc-section-wide !max-w-[1200px] py-8">
         <CognitiveNav />
         <CognitiveStoreHydration>{children}</CognitiveStoreHydration>
       </div>
