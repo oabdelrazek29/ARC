@@ -56,7 +56,7 @@ function SkillTreeCanvasInner({ tree, onNodeSelect }: Props) {
   );
 
   return (
-    <div className="h-full min-h-[480px] w-full rounded-2xl border border-zinc-800/80 bg-zinc-950/80">
+    <div className="h-full min-h-[480px] w-full">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -67,17 +67,17 @@ function SkillTreeCanvasInner({ tree, onNodeSelect }: Props) {
         proOptions={{ hideAttribution: true }}
         defaultEdgeOptions={{ type: "smoothstep" }}
       >
-        <Background gap={20} color="#27272a" />
-        <Controls className="!bg-zinc-900 !border-zinc-700" />
+        <Background gap={20} color="var(--arc-dot)" />
+        <Controls />
         <MiniMap
-          className="!bg-zinc-900"
           nodeColor={(n) =>
             (n.data as SkillNodeFlowData)?.node?.completed
-              ? "#34d399"
+              ? "#22c55e"
               : (n.data as SkillNodeFlowData)?.node?.unlocked
-                ? "#22d3ee"
-                : "#52525b"
+                ? "#737373"
+                : "#404040"
           }
+          maskColor="var(--arc-bg)"
         />
       </ReactFlow>
     </div>

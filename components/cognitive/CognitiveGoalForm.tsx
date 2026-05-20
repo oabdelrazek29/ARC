@@ -57,7 +57,7 @@ export function CognitiveGoalForm() {
 
   return (
     <div className="mx-auto max-w-xl space-y-4">
-      <label className="block text-sm text-zinc-400">
+      <label className="block text-sm text-[var(--arc-muted)]">
         What do you want to understand or master?
       </label>
       <textarea
@@ -65,7 +65,7 @@ export function CognitiveGoalForm() {
         onChange={(e) => setInput(e.target.value)}
         rows={4}
         placeholder="e.g. Machine learning fundamentals for product decisions"
-        className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-cyan-500/50"
+        className="w-full rounded-xl border border-[var(--arc-border)] bg-[var(--arc-bg)] px-4 py-3 text-[var(--arc-fg)] outline-none focus:border-[var(--arc-fg)]"
       />
       <Button onClick={submit} disabled={loading || !input.trim()} className="w-full">
         {loading ? (
@@ -82,7 +82,7 @@ export function CognitiveGoalForm() {
           {error}
         </p>
       )}
-      <p className="text-center text-xs text-zinc-600">
+      <p className="text-center text-xs text-[var(--arc-muted)]">
         One AI call — graph saved locally. Nodes model how you think, not course
         content.
       </p>

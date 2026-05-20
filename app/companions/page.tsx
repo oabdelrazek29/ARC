@@ -47,9 +47,7 @@ const CompanionsLibrary = async ({ searchParams }: SearchParams) => {
   return (
     <div className="arc-lms-page">
       <section className="mb-8 flex flex-wrap items-end justify-between gap-4">
-        <h1 className="font-bricolage text-3xl font-bold text-white">
-          Voice tutors
-        </h1>
+        <h1 className="arc-heading text-3xl">Voice tutors</h1>
         <div className="flex gap-4">
           <SearchInput />
           <SubjectFilter />
@@ -57,7 +55,7 @@ const CompanionsLibrary = async ({ searchParams }: SearchParams) => {
       </section>
       <section className="companions-grid">
         {companions.length === 0 ? (
-          <p className="text-zinc-500">
+          <p className="text-[var(--arc-muted)]">
             No tutors found. Create one or adjust filters.
           </p>
         ) : (

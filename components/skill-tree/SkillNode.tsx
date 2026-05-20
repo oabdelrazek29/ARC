@@ -39,37 +39,36 @@ function SkillNodeComponent({ data }: NodeProps & { data: SkillNodeFlowData }) {
         !locked && !done && "arc-skill-node--active hover:scale-[1.02]"
       )}
     >
-      <Handle type="target" position={Position.Top} className="!h-2 !w-2 !bg-cyan-400/80" />
+      <Handle type="target" position={Position.Top} className="!h-1.5 !w-1.5 !border !border-[var(--arc-border)] !bg-[var(--arc-card)]" />
       <div className="flex items-start justify-between gap-2">
-        <div
-          className={cn(
-            "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg",
-            node.nodeType === "bossBattle"
-              ? "bg-amber-500/20 text-amber-300"
-              : "bg-cyan-500/15 text-cyan-300"
-          )}
-        >
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--arc-border)] bg-[var(--arc-bg)] text-[var(--arc-fg)]">
           {locked ? (
             <Lock className="h-4 w-4" />
           ) : done ? (
-            <Check className="h-4 w-4 text-emerald-400" />
+            <Check className="h-4 w-4 text-[var(--arc-accent)]" />
           ) : (
             <Icon className="h-4 w-4" />
           )}
         </div>
-        <span className="text-[10px] uppercase tracking-wider text-zinc-500">
+        <span className="arc-mono text-[10px] uppercase text-[var(--arc-muted)]">
           {NODE_TYPE_LABELS[node.nodeType]}
         </span>
       </div>
-      <p className="mt-2 text-sm font-semibold leading-tight text-zinc-100">
+      <p className="mt-2 text-sm font-semibold leading-snug text-[var(--arc-fg)]">
         {node.title}
       </p>
-      <p className="mt-1 line-clamp-2 text-xs text-zinc-500">{node.description}</p>
-      <div className="mt-2 flex items-center justify-between text-[10px] text-zinc-400">
+      <p className="mt-1 line-clamp-2 text-xs text-[var(--arc-muted)]">
+        {node.description}
+      </p>
+      <div className="arc-mono mt-2 flex items-center justify-between text-[10px] text-[var(--arc-muted)]">
         <span>{node.xpReward} XP</span>
         <span>{node.estimatedTime}m</span>
       </div>
-      <Handle type="source" position={Position.Bottom} className="!h-2 !w-2 !bg-cyan-400/80" />
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        className="!h-1.5 !w-1.5 !border !border-[var(--arc-border)] !bg-[var(--arc-card)]"
+      />
     </button>
   );
 }

@@ -25,7 +25,7 @@ const CognitiveGraphCanvas = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-[520px] items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-950/60 text-[var(--arc-muted)]">
+      <div className="arc-card flex h-[520px] items-center justify-center text-[var(--arc-muted)]">
         Loading cognitive graph…
       </div>
     ),

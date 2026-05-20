@@ -97,14 +97,14 @@ function CognitiveGraphCanvasInner({
 
   if (!graph.nodes.length) {
     return (
-      <div className="flex h-[520px] items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-950/60 text-zinc-500">
+      <div className="flex h-[520px] items-center justify-center text-[var(--arc-muted)]">
         No nodes in this graph yet.
       </div>
     );
   }
 
   return (
-    <div className="arc-cognitive-flow h-[520px] w-full rounded-2xl border border-zinc-800/80 bg-zinc-950/60">
+    <div className="arc-cognitive-flow h-[520px] w-full">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -117,16 +117,16 @@ function CognitiveGraphCanvasInner({
         onNodeDragStop={editable ? onNodeDragStopHandler : undefined}
         proOptions={{ hideAttribution: true }}
       >
-        <Background color="#27272a" gap={20} />
+        <Background gap={20} color="var(--arc-dot)" />
         <Controls />
         <MiniMap
           nodeColor={(n) => {
             const state = (n.data as CognitiveNodeFlowData)?.node?.state;
-            if (state === "unstable") return "#fbbf24";
-            if (state === "stable") return "#34d399";
-            return "#22d3ee";
+            if (state === "unstable") return "#a3a3a3";
+            if (state === "stable") return "#22c55e";
+            return "#737373";
           }}
-          maskColor="rgb(9 9 11 / 0.85)"
+          maskColor="var(--arc-bg)"
         />
       </ReactFlow>
     </div>

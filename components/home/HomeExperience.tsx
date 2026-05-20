@@ -8,7 +8,7 @@ import { ArcCard } from "@/components/arc-ui/ArcCard";
 import { PillBadge } from "@/components/arc-ui/PillBadge";
 import { IntelligenceStream } from "@/components/home/IntelligenceStream";
 import { LiveSimulationLayer } from "@/components/home/LiveSimulationLayer";
-import { LivingIntelligenceCanvas } from "@/components/home/LivingIntelligenceCanvas";
+import { DustParticles } from "@/components/home/DustParticles";
 import { MiniGraphPreview } from "@/components/home/MiniGraphPreview";
 import { SystemExplanationPanel } from "@/components/home/SystemExplanationPanel";
 import { TryArcSandbox } from "@/components/home/TryArcSandbox";
@@ -29,7 +29,7 @@ export function HomeExperience() {
     <div className="arc-home -mx-0 w-full">
       {/* Hero — living intelligence canvas + dot grid */}
       <section className="arc-home-hero arc-dot-grid relative flex min-h-[100dvh] flex-col justify-end overflow-hidden">
-        <LivingIntelligenceCanvas nodes={snapshot.background} />
+        <DustParticles />
         <div className="arc-home-hero-overlay pointer-events-none absolute inset-0" />
 
         {/* Floating preview cards */}

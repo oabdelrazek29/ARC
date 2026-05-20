@@ -1,32 +1,40 @@
-/* Cognitive OS — theme-aligned */
+/* Cognitive OS — theme-aligned graphs */
 .arc-cognitive-wrap {
   min-height: calc(100vh - 4rem);
   background: var(--arc-bg);
   color: var(--arc-fg);
 }
 
-.arc-cognitive-edge {
-  stroke: color-mix(in srgb, var(--arc-accent) 40%, transparent);
-  stroke-width: 1.5;
+.arc-cognitive-edge path {
+  stroke: var(--arc-graph-edge) !important;
+  stroke-width: 1.2px !important;
 }
 
-.arc-cognitive-edge--weak {
-  stroke: #fbbf24;
-  stroke-dasharray: 6 4;
-  opacity: 0.6;
+.arc-cognitive-edge--weak path {
+  stroke-dasharray: 4 4 !important;
+  opacity: 0.35 !important;
 }
 
-.arc-cognitive-edge--strong {
-  stroke: var(--arc-accent);
-  opacity: 0.7;
+.arc-cognitive-edge--strong path {
+  stroke: var(--arc-accent) !important;
+  opacity: 0.45 !important;
+}
+
+.arc-cognitive-flow {
+  background: var(--arc-bg);
 }
 
 .arc-cognitive-flow .react-flow__minimap {
   background: var(--arc-card);
+  border: 1px solid var(--arc-border);
 }
 
 .arc-cognitive-flow .react-flow__controls button {
   background: var(--arc-card);
   border-color: var(--arc-border);
   color: var(--arc-fg);
+}
+
+.arc-cognitive-flow .react-flow__background pattern circle {
+  fill: var(--arc-dot);
 }

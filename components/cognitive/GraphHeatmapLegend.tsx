@@ -12,19 +12,19 @@ const STATES: NodeDriftState[] = [
 
 export function GraphHeatmapLegend() {
   return (
-    <div className="flex flex-wrap items-center gap-3 text-[10px] text-zinc-500">
+    <div className="flex flex-wrap items-center gap-3 text-[10px] text-[var(--arc-muted)]">
       <span className="uppercase tracking-wider">Understanding heatmap</span>
       {STATES.map((s) => (
         <span key={s} className="flex items-center gap-1">
           <span
-            className={`h-2 w-2 rounded-full ${
+            className={`h-2 w-2 rounded-full border ${
               s === "stable"
-                ? "bg-emerald-400"
+                ? "border-[var(--arc-accent)] bg-[var(--arc-accent)]"
                 : s === "unstable"
-                  ? "bg-amber-400"
+                  ? "border-[var(--arc-fg)]/50 bg-transparent"
                   : s === "decaying"
-                    ? "bg-rose-400"
-                    : "bg-cyan-400"
+                    ? "border-[var(--arc-fg)]/25 bg-[var(--arc-fg)]/10"
+                    : "border-[var(--arc-fg)]/40 bg-[var(--arc-fg)]/20"
             }`}
           />
           {DRIFT_STATE_LABELS[s]}

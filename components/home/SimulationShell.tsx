@@ -13,13 +13,13 @@ type Props = {
 function SimulationShellInner({ worlds, tick }: Props) {
   const totalUnstable = worlds.reduce((s, w) => s + w.unstableCount, 0);
   return (
-    <div className="rounded-lg border border-zinc-800/60 bg-zinc-900/40 px-4 py-3 font-mono text-xs text-zinc-500">
+    <div className="arc-card arc-mono px-4 py-3 text-xs text-[var(--arc-muted)]">
       <p>
-        Engine tick <span className="text-cyan-400">{tick}</span> ·{" "}
+        Engine tick <span className="text-[var(--arc-accent)]">{tick}</span> ·{" "}
         {worlds.length} worlds ·{" "}
-        <span className="text-amber-400/90">{totalUnstable}</span> unstable nodes
+        <span className="text-[var(--arc-fg)]/80">{totalUnstable}</span> unstable nodes
       </p>
-      <p className="mt-1 text-[10px] text-zinc-600">
+      <p className="mt-1 text-[10px] opacity-70">
         Deterministic · in-memory · throttled 1.6s
       </p>
     </div>

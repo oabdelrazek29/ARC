@@ -4,13 +4,6 @@ import { memo, useMemo } from "react";
 
 import type { SimEdge, SimNode } from "@/lib/simulation/types";
 
-const STATE_STROKE: Record<SimNode["state"], string> = {
-  stable: "#34d399",
-  unstable: "#fbbf24",
-  strengthening: "#22d3ee",
-  decaying: "#fb7185",
-};
-
 type Props = {
   nodes: SimNode[];
   edges: SimEdge[];
@@ -18,13 +11,15 @@ type Props = {
   heatmap?: boolean;
 };
 
-function MiniGraphSvgInner({ nodes, edges, className, heatmap }: Props) {
+/** Monochrome constellation-style graph preview */
+function MiniGraphSvgInner({ nodes, edges, className }: Props) {
   const edgeEls = useMemo(
     () =>
       edges.map((e) => {
         const from = nodes.find((n) => n.id === e.from);
         const to = nodes.find((n) => n.id === e.to);
         if (!from || !to) return null;
+        const weak = e.id.includes("mis") || e.id.includes("weak");
         return (
           <line
             key={e.id}
@@ -32,8 +27,10 @@ function MiniGraphSvgInner({ nodes, edges, className, heatmap }: Props) {
             y1={from.y * 100}
             x2={to.x * 100}
             y2={to.y * 100}
-            stroke="rgba(34,211,238,0.25)"
-            strokeWidth={0.6}
+            stroke="var(--arc-graph-edge)"
+            strokeWidth={weak ? 0.4 : 0.7}
+            strokeDasharray={weak ? "2 3" : undefined}
+            opacity={weak ? 0.35 : 0.55}
           />
         );
       }),
@@ -47,23 +44,42 @@ function MiniGraphSvgInner({ nodes, edges, className, heatmap }: Props) {
       aria-hidden
       preserveAspectRatio="xMidYMid meet"
     >
+      <defs>
+        <radialGradient id="arc-node-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="var(--arc-fg)" stopOpacity="0.12" />
+          <stop offset="100%" stopColor="var(--arc-fg)" stopOpacity="0" />
+        </radialGradient>
+      </defs>
       {edgeEls}
       {nodes.map((n) => {
-        const heat = heatmap ? 1 - n.confidence : 0;
+        const cx = n.x * 100;
+        const cy = n.y * 100;
+        const unstable = n.state === "unstable" || n.state === "decaying";
+        const mastered = n.state === "stable" || n.state === "strengthening";
+        const r = unstable ? 5 : 4;
+
         return (
-          <g key={n.id} transform={`translate(${n.x * 100}, ${n.y * 100})`}>
-            {heatmap && (
+          <g key={n.id}>
+            <circle cx={cx} cy={cy} r={12} fill="url(#arc-node-glow)" />
+            <circle
+              cx={cx}
+              cy={cy}
+              r={r}
+              fill="var(--arc-card)"
+              stroke="var(--arc-fg)"
+              strokeWidth={unstable ? 0.6 : 1}
+              strokeDasharray={unstable ? "2 2" : undefined}
+              opacity={0.55 + n.confidence * 0.45}
+            />
+            {mastered && (
               <circle
-                r={10}
-                fill={`rgba(251,191,36,${0.08 + heat * 0.2})`}
+                cx={cx}
+                cy={cy}
+                r={1.5}
+                fill="var(--arc-accent)"
+                opacity={0.9}
               />
             )}
-            <circle
-              r={n.state === "unstable" ? 4.5 : 3.5}
-              fill={STATE_STROKE[n.state]}
-              opacity={0.5 + n.confidence * 0.5}
-              className={n.state === "unstable" ? "arc-node-pulse" : undefined}
-            />
           </g>
         );
       })}

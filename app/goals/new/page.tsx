@@ -1,9 +1,10 @@
 import { GoalWizard } from "@/components/arc/GoalWizard";
+import { PageShell } from "@/components/layout/PageShell";
 
 export default function NewGoalPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
+    <PageShell>
       <GoalWizard />
-    </div>
+    </PageShell>
   );
 }

@@ -84,17 +84,17 @@ export function GoalWizard() {
   };
 
   return (
-    <div className="mx-auto max-w-xl space-y-6 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6">
+    <div className="arc-card mx-auto max-w-xl space-y-6">
       <div>
-        <h1 className="font-bricolage text-2xl font-bold text-white">
+        <h1 className="arc-heading text-2xl">
           What do you want to master?
         </h1>
-        <p className="mt-2 text-sm text-zinc-400">
+        <p className="mt-2 text-sm text-[var(--arc-muted)]">
           ARC analyzes your goal, asks clarifying questions when needed, then
           generates your skill tree once — no repeated AI calls.
         </p>
         {aiReady && (
-          <p className="mt-2 text-xs text-emerald-400/90">
+          <p className="mt-2 text-xs text-[var(--arc-accent)]">
             OpenAI connected — trees & coach use your key (server-side only).
           </p>
         )}
@@ -105,20 +105,20 @@ export function GoalWizard() {
         onChange={(e) => setInput(e.target.value)}
         placeholder='e.g. "I want to learn machine learning for a data science job"'
         rows={3}
-        className="w-full resize-none rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-cyan-500/50 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+        className="w-full resize-none rounded-xl border border-[var(--arc-border)] bg-[var(--arc-bg)] px-4 py-3 text-sm text-[var(--arc-fg)] placeholder:text-[var(--arc-muted)] focus:border-[var(--arc-fg)] focus:outline-none"
       />
 
       {questions.length > 0 && (
-        <div className="space-y-4 border-t border-zinc-800 pt-4">
-          <p className="text-sm font-medium text-cyan-300">
+        <div className="space-y-4 border-t border-[var(--arc-border)] pt-4">
+          <p className="text-sm font-medium text-[var(--arc-fg)]">
             A few questions before we build your tree
           </p>
           {questions.map((q) => (
             <div key={q.id} className="space-y-2">
-              <label className="text-sm text-zinc-300">{q.question}</label>
+              <label className="text-sm text-[var(--arc-fg)]">{q.question}</label>
               {q.type === "select" && q.options ? (
                 <select
-                  className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100"
+                  className="w-full rounded-lg border border-[var(--arc-border)] bg-[var(--arc-bg)] px-3 py-2 text-sm text-[var(--arc-fg)]"
                   onChange={(e) => {
                     const val = e.target.value;
                     if (!val) return;
@@ -144,7 +144,7 @@ export function GoalWizard() {
               ) : (
                 <input
                   type={q.type === "number" ? "number" : "text"}
-                  className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100"
+                  className="w-full rounded-lg border border-[var(--arc-border)] bg-[var(--arc-bg)] px-3 py-2 text-sm text-[var(--arc-fg)]"
                   onChange={(e) => {
                     const val = e.target.value;
                     if (q.id === "hoursPerWeek") {

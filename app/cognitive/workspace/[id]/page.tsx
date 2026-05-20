@@ -36,9 +36,9 @@ export default function CognitiveWorkspacePage() {
 
   if (!graph) {
     return (
-      <div className="py-20 text-center text-zinc-500">
+      <div className="py-20 text-center text-[var(--arc-muted)]">
         Graph not found.{" "}
-        <Link href="/cognitive" className="text-cyan-400 hover:underline">
+        <Link href="/cognitive" className="text-[var(--arc-accent)] hover:underline">
           Back to Cognitive OS
         </Link>
       </div>
@@ -49,16 +49,16 @@ export default function CognitiveWorkspacePage() {
     <div className="space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-bricolage text-2xl font-bold text-white">
+          <h1 className="arc-heading text-2xl">
             Workspace — {graph.title}
           </h1>
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-[var(--arc-muted)]">
             Full edit mode · drag, merge, split, annotate clusters
           </p>
         </div>
         <Link
           href={`/cognitive/${graph.id}`}
-          className="text-sm text-cyan-500 hover:underline"
+          className="text-sm text-[var(--arc-accent)] hover:underline"
         >
           ← Graph + Advisor
         </Link>
