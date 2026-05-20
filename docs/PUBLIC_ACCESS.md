@@ -7,6 +7,8 @@ After **Deployment Protection** is off in Vercel (see `DEPLOY_VERCEL.md`), anyon
 - `/` — homepage, marketing, homepage AI adviser preview
 - `/about` — about page
 - `/classic` — classic landing
+- `/subscription` — pricing / plans
+- `/sign-in`, `/sign-up` — Clerk auth screens
 
 No Vercel account and no ARC sign-in required for these.
 
