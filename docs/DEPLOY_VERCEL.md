@@ -4,7 +4,7 @@
 
 1. Go to [https://vercel.com/new](https://vercel.com/new)
 2. Import **https://github.com/oabdelrazek29/ARC**
-3. Project name: **arc** (production URL: `https://arc.vercel.app`)
+3. Project name: **arc** (production URL: `https://arc-oabdelrazek29s-projects.vercel.app`)
 4. Framework: **Next.js** (auto-detected)
 5. Root Directory: **`.`** (leave default — repo root is the app)
 6. Build Command: `npm run build` (default)
@@ -31,7 +31,7 @@ Apply to **Production**, **Preview**, and **Development**.
 
 In [Clerk Dashboard](https://dashboard.clerk.com) → your app → **Domains**, add your Vercel URL, e.g.:
 
-- `https://arc.vercel.app`
+- `https://arc-oabdelrazek29s-projects.vercel.app`
 
 ## 4. Redeploy
 
