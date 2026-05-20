@@ -3,11 +3,11 @@
 /* ─── Theme tokens ─── */
 :root,
 [data-theme="light"] {
-  --arc-bg: #ffffff;
-  --arc-fg: #0a0a0a;
-  --arc-border: #ebebeb;
-  --arc-card: #fafafa;
-  --arc-muted: #737373;
+  --arc-bg: #faf9f7;
+  --arc-fg: #1a1814;
+  --arc-border: #e8e4dc;
+  --arc-card: #ffffff;
+  --arc-muted: #6b6560;
   --arc-accent: #22c55e;
   --arc-dot: rgba(0, 0, 0, 0.07);
   --arc-nav-bg: rgba(255, 255, 255, 0.72);
@@ -56,30 +56,49 @@
   --ring: #22c55e;
 }
 
-/* ─── Base typography ─── */
+/* ─── Base typography (Clarity-inspired: Fraunces + JetBrains Mono) ─── */
 .arc-root {
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-family: var(--font-fraunces), Georgia, "Times New Roman", serif;
   background-color: var(--arc-bg);
   color: var(--arc-fg);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.arc-heading {
-  font-family: var(--font-syne), system-ui, sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  line-height: 1.2;
+.arc-heading,
+.arc-display {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
-.arc-body {
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
-  line-height: 1.65;
+.arc-display {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+}
+
+.arc-body,
+.arc-lead {
+  font-family: var(--font-fraunces), Georgia, serif;
+  line-height: 1.7;
   letter-spacing: 0.01em;
 }
 
-.arc-mono {
-  font-family: var(--font-dm-mono), ui-monospace, monospace;
-  letter-spacing: 0.04em;
+.arc-lead {
+  font-size: 1.0625rem;
+  color: var(--arc-muted);
+}
+
+.arc-mono,
+.arc-colophon {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  letter-spacing: 0.06em;
+}
+
+.arc-colophon {
+  font-size: 0.6875rem;
+  text-transform: none;
+  color: var(--arc-muted);
+  line-height: 1.6;
 }
 
 /* Graph preview tokens */
@@ -179,7 +198,7 @@
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   border: 1px solid var(--arc-border);
-  font-family: var(--font-dm-mono), monospace;
+  font-family: var(--font-jetbrains-mono), monospace;
   font-size: 0.6875rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -222,7 +241,7 @@
 }
 
 .arc-stat-value {
-  font-family: var(--font-syne), sans-serif;
+  font-family: var(--font-fraunces), serif;
   font-weight: 700;
   font-size: 2rem;
   line-height: 1.1;
@@ -231,7 +250,7 @@
 }
 
 .arc-stat-label {
-  font-family: var(--font-dm-mono), monospace;
+  font-family: var(--font-jetbrains-mono), monospace;
   font-size: 0.6875rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -362,4 +381,74 @@
     transparent 40%,
     var(--arc-bg) 100%
   );
+}
+
+/* ─── Clarity-style split layout ─── */
+.arc-split-hero {
+  display: grid;
+  min-height: calc(100dvh - 3.5rem);
+  background: var(--arc-bg);
+}
+
+@media (min-width: 1024px) {
+  .arc-split-hero {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.arc-split-editorial {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  border-bottom: 1px solid var(--arc-border);
+}
+
+@media (min-width: 1024px) {
+  .arc-split-editorial {
+    padding: 4rem 3rem;
+    border-bottom: none;
+    border-right: 1px solid var(--arc-border);
+  }
+}
+
+.arc-split-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  background: color-mix(in srgb, var(--arc-card) 60%, var(--arc-bg));
+}
+
+@media (min-width: 1024px) {
+  .arc-split-panel {
+    padding: 3rem;
+  }
+}
+
+.arc-form-card {
+  width: 100%;
+  max-width: 26rem;
+  border: 1px solid var(--arc-border);
+  border-radius: 4px;
+  background: var(--arc-card);
+  padding: 2rem;
+}
+
+.arc-form-card__label {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--arc-muted);
+  margin-bottom: 0.5rem;
+}
+
+.arc-section-label {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--arc-muted);
+  margin-bottom: 0.75rem;
 }

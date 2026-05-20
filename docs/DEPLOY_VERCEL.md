@@ -33,11 +33,25 @@ In [Clerk Dashboard](https://dashboard.clerk.com) → your app → **Domains**, 
 
 - `https://arc-oabdelrazek29s-projects.vercel.app`
 
-## 4. Redeploy
+## 4. Make the site public (no Vercel login wall)
+
+If visitors see **“Log in to Vercel”** before your app loads, **Deployment Protection** is on.
+
+1. Vercel → your **arc** project → **Settings** → **Deployment Protection**
+2. For **Production**, turn protection **off** (or allow public access)
+3. Redeploy
+
+Your public URL should load without a Vercel account:
+
+- `https://arc-oabdelrazek29s-projects.vercel.app`
+
+Optional: add a custom domain under **Settings** → **Domains**.
+
+## 5. Redeploy
 
 After env vars are set: **Deployments** → ⋮ on latest → **Redeploy**.
 
-## CLI (optional)
+## 6. CLI (optional)
 
 ```bash
 cd arc

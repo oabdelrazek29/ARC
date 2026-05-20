@@ -50,9 +50,9 @@
   --color-cta-gold: var(--cta-gold);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-syne);
-  --font-sans: var(--font-dm-sans);
-  --font-mono: var(--font-dm-mono);
+  --font-heading: var(--font-fraunces);
+  --font-sans: var(--font-fraunces);
+  --font-mono: var(--font-jetbrains-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -92,7 +92,7 @@
 }
 
 body {
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-family: var(--font-fraunces), Georgia, serif;
 }
 
 .dark {
@@ -140,9 +140,9 @@ body {
     @apply flex flex-1 flex-col min-h-0;
   }
   h1 {
-    font-family: var(--font-syne), system-ui, sans-serif;
-    font-weight: 800;
-    letter-spacing: -0.03em;
+    font-family: var(--font-fraunces), Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
     font-size: 1.875rem;
     line-height: 2.25rem;
   }

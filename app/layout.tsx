@@ -1,27 +1,22 @@
 import type { Metadata } from "next";
-import { DM_Mono, DM_Sans, Syne } from "next/font/google";
+import { Fraunces, JetBrains_Mono } from "next/font/google";
 
 import { Navbar } from "@/components/layout/Navbar";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 import "./globals.css";
 import "./arc-theme.css";
 
-const syne = Syne({
-  variable: "--font-syne",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-const dmMono = DM_Mono({
-  variable: "--font-dm-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
 });
@@ -66,12 +61,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${syne.variable} ${dmSans.variable} ${dmMono.variable} antialiased`}
+        className={`${fraunces.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <ThemeProvider>
           <AuthProvider>
             <Navbar />
             <main className="arc-main">{children}</main>
+            <SiteFooter />
           </AuthProvider>
         </ThemeProvider>
       </body>
