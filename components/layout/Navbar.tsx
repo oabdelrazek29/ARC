@@ -3,15 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { MobileNav } from "@/components/layout/MobileNav";
+import { SiteMenu } from "@/components/layout/SiteMenu";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { desktopPrimaryLinks } from "@/lib/site-nav";
 import { cn } from "@/lib/utils";
-
-const centerLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/#pricing", label: "Pricing" },
-];
 
 export function Navbar() {
   const pathname = usePathname();
@@ -24,34 +19,40 @@ export function Navbar() {
         : href.startsWith("/#")
           ? false
           : pathname === href || pathname.startsWith(`${href}/`)
-        ? "arc-nav-link--active"
-        : ""
+            ? "arc-nav-link--active"
+            : ""
     );
 
   return (
     <header className="arc-navbar">
-      <nav className="mx-auto flex h-14 max-w-[72rem] items-center justify-between gap-4 px-4 md:h-16 md:px-8">
+      <nav className="arc-navbar__inner">
         <Link href="/" className="arc-heading shrink-0 text-lg">
           ARC
         </Link>
 
         <div className="arc-nav-center">
-          {centerLinks.map((l) => (
+          {desktopPrimaryLinks.map((l) => (
             <Link key={l.href} href={l.href} className={linkClass(l.href)}>
               {l.label}
             </Link>
           ))}
         </div>
 
-        <div className="flex shrink-0 items-center gap-3">
+        <div className="arc-navbar__actions">
           <ThemeToggle className="hidden sm:inline-flex" />
           <Link
             href="/sign-in"
-            className="arc-nav-link hidden text-sm md:inline"
+            className="arc-nav-link hidden text-sm lg:inline"
           >
-            Login / Sign up
+            Login
           </Link>
-          <MobileNav />
+          <Link
+            href="/settings"
+            className="arc-nav-link hidden text-sm lg:inline"
+          >
+            Settings
+          </Link>
+          <SiteMenu />
         </div>
       </nav>
     </header>

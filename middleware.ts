@@ -12,6 +12,7 @@ const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
   "/cognitive(.*)",
   "/companions(.*)",
+  "/settings(.*)",
   "/api/ai/coach",
   "/api/ai/status",
 ]);
