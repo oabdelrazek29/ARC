@@ -9,12 +9,12 @@ import { cn } from "@/lib/utils";
 
 const menuLinks = [
   { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/#pricing", label: "Pricing" },
+  { href: "/sign-in", label: "Login / Sign up" },
+  { href: "/cognitive", label: "Begin learning" },
   { href: "/dashboard", label: "Dashboard" },
-  { href: "/cognitive", label: "Cognitive OS" },
   { href: "/settings", label: "Settings" },
-  { href: "/companions", label: "Tutors" },
-  { href: "/my-journey", label: "Journey" },
-  { href: "/sign-in", label: "Sign in" },
 ];
 
 export function MobileNav() {
@@ -40,7 +40,7 @@ export function MobileNav() {
 
       {open && (
         <div
-          className="fixed inset-0 z-[100] bg-black/40"
+          className="fixed inset-0 z-[100] bg-black/50"
           onClick={() => setOpen(false)}
           aria-hidden
         />
@@ -48,15 +48,16 @@ export function MobileNav() {
 
       <aside
         className={cn(
-          "fixed right-0 top-0 z-[101] flex h-full w-[min(100%,320px)] flex-col border-l border-[var(--arc-border)] bg-[var(--arc-bg)] shadow-xl transition-transform duration-300",
-          open ? "translate-x-0" : "translate-x-full"
+          "fixed right-0 top-0 z-[101] flex h-full w-[min(100%,300px)] flex-col border-l border-[var(--arc-border)] bg-[var(--arc-bg)]",
+          open ? "translate-x-0" : "translate-x-full",
+          "transition-transform duration-300"
         )}
         aria-hidden={!open}
       >
         <div className="flex items-center justify-between border-b border-[var(--arc-border)] px-4 py-4">
-          <p className="arc-mono text-[10px] uppercase tracking-widest text-[var(--arc-muted)]">
-            Options
-          </p>
+          <span className="arc-mono text-[10px] text-[var(--arc-muted)]">
+            Menu
+          </span>
           <button
             type="button"
             onClick={() => setOpen(false)}
@@ -67,16 +68,13 @@ export function MobileNav() {
           </button>
         </div>
 
-        <nav className="flex flex-1 flex-col gap-1 overflow-y-auto p-4">
-          <p className="arc-mono mb-2 px-2 text-[10px] uppercase tracking-widest text-[var(--arc-muted)]">
-            Navigate
-          </p>
+        <nav className="flex-1 overflow-y-auto p-4">
           {menuLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="rounded-lg px-3 py-2.5 text-sm text-[var(--arc-fg)] transition-colors hover:bg-[var(--arc-card)]"
+              className="block py-2.5 text-sm text-[var(--arc-fg)]"
             >
               {link.label}
             </Link>
@@ -84,13 +82,7 @@ export function MobileNav() {
         </nav>
 
         <div className="border-t border-[var(--arc-border)] p-4">
-          <p className="arc-mono mb-3 text-[10px] uppercase tracking-widest text-[var(--arc-muted)]">
-            Appearance
-          </p>
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            <span className="text-sm text-[var(--arc-muted)]">Light / dark</span>
-          </div>
+          <ThemeToggle />
         </div>
       </aside>
     </div>

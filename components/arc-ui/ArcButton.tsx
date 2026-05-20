@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 type Props = {
   children: React.ReactNode;
   href?: string;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "ghost";
   className?: string;
   onClick?: () => void;
   type?: "button" | "submit";
@@ -23,7 +23,11 @@ export function ArcButton({
 }: Props) {
   const classes = cn(
     "arc-btn",
-    variant === "primary" ? "arc-btn-primary" : "arc-btn-secondary",
+    variant === "primary"
+      ? "arc-btn-primary"
+      : variant === "ghost"
+        ? "arc-btn-ghost"
+        : "arc-btn-secondary",
     disabled && "pointer-events-none opacity-50",
     className
   );

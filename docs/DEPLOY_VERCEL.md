@@ -35,15 +35,25 @@ In [Clerk Dashboard](https://dashboard.clerk.com) → your app → **Domains**, 
 
 ## 4. Make the site public (no Vercel login wall)
 
-If visitors see **“Log in to Vercel”** before your app loads, **Deployment Protection** is on.
+If visitors see **“Log in to Vercel”** or **“Request access”** before your app loads, **Deployment Protection** is enabled. This is a Vercel project setting, not something in the ARC codebase.
 
-1. Vercel → your **arc** project → **Settings** → **Deployment Protection**
-2. For **Production**, turn protection **off** (or allow public access)
-3. Redeploy
+### Fix (required for public visitors)
+
+1. Open [vercel.com/dashboard](https://vercel.com/dashboard)
+2. Select project **arc**
+3. **Settings** → **Deployment Protection**
+4. Under **Production**:
+   - Set to **Standard Protection: Off** (or disable “Vercel Authentication” for production)
+5. **Save**
+6. **Deployments** → latest production → **Redeploy**
 
 Your public URL should load without a Vercel account:
 
 - `https://arc-oabdelrazek29s-projects.vercel.app`
+
+### Preview deployments
+
+If you want preview URLs public too, disable protection for **Preview** deployments in the same screen.
 
 Optional: add a custom domain under **Settings** → **Domains**.
 
@@ -51,7 +61,7 @@ Optional: add a custom domain under **Settings** → **Domains**.
 
 After env vars are set: **Deployments** → ⋮ on latest → **Redeploy**.
 
-## 6. CLI (optional)
+## CLI (optional)
 
 ```bash
 cd arc
