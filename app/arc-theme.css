@@ -237,6 +237,120 @@
   }
 }
 
+/* ─── Mobile nav drawer ─── */
+.arc-mobile-nav__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0;
+  border: 1px solid var(--arc-border);
+  border-radius: 2px;
+  background: var(--arc-surface);
+  color: var(--arc-fg);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.arc-mobile-nav__icon-btn:hover {
+  border-color: var(--arc-hover-border);
+}
+
+.arc-mobile-nav__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  cursor: pointer;
+}
+
+.arc-mobile-nav__panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  width: min(100vw, 320px);
+  max-width: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
+  border-left: 1px solid var(--arc-border);
+  background: var(--arc-bg);
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.2);
+  animation: arc-mobile-nav-in 0.28s ease;
+}
+
+@keyframes arc-mobile-nav-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.arc-mobile-nav__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: 1rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--arc-border);
+}
+
+.arc-mobile-nav__nav {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.5rem 1rem 1.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.arc-mobile-nav__group + .arc-mobile-nav__group {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--arc-border);
+}
+
+.arc-mobile-nav__group-title {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--arc-muted);
+}
+
+.arc-mobile-nav__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.arc-mobile-nav__link {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.5rem 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 1rem;
+  color: var(--arc-fg);
+  text-decoration: none;
+}
+
+.arc-mobile-nav__link:hover,
+.arc-mobile-nav__link:active {
+  color: var(--arc-accent);
+}
+
 /* ─── Buttons ─── */
 .arc-btn {
   display: inline-flex;

@@ -2,89 +2,142 @@
 
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { cn } from "@/lib/utils";
 
-const menuLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/#pricing", label: "Pricing" },
-  { href: "/sign-in", label: "Login / Sign up" },
-  { href: "/cognitive", label: "Begin learning" },
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/settings", label: "Settings" },
+const menuSections = [
+  {
+    title: "Explore",
+    links: [
+      { href: "/", label: "Home" },
+      { href: "/about", label: "About" },
+      { href: "/#pricing", label: "Pricing" },
+    ],
+  },
+  {
+    title: "Learn",
+    links: [
+      { href: "/cognitive", label: "Cognitive OS" },
+      { href: "/companions", label: "Tutors" },
+    ],
+  },
+  {
+    title: "Your account",
+    links: [
+      { href: "/sign-in", label: "Login / Sign up" },
+      { href: "/dashboard", label: "Dashboard" },
+      { href: "/my-journey", label: "My journey" },
+      { href: "/settings", label: "Settings" },
+    ],
+  },
 ];
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  const close = useCallback(() => setOpen(false), []);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
     };
-  }, [open]);
+  }, [open, close]);
+
+  const drawer =
+    mounted && open
+      ? createPortal(
+          <>
+            <button
+              type="button"
+              className="arc-mobile-nav__backdrop"
+              onClick={close}
+              aria-label="Close menu"
+            />
+            <aside
+              id="arc-mobile-nav"
+              className="arc-mobile-nav__panel"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Site menu"
+            >
+              <div className="arc-mobile-nav__header">
+                <span className="arc-mono text-[10px] uppercase tracking-widest text-[var(--arc-muted)]">
+                  Menu
+                </span>
+                <div className="flex items-center gap-2">
+                  <ThemeToggle />
+                  <button
+                    type="button"
+                    onClick={close}
+                    className="arc-mobile-nav__icon-btn"
+                    aria-label="Close menu"
+                  >
+                    <X className="h-5 w-5" aria-hidden />
+                  </button>
+                </div>
+              </div>
+
+              <nav className="arc-mobile-nav__nav">
+                {menuSections.map((section) => (
+                  <div key={section.title} className="arc-mobile-nav__group">
+                    <p className="arc-mobile-nav__group-title">{section.title}</p>
+                    <ul className="arc-mobile-nav__list">
+                      {section.links.map((link) => (
+                        <li key={link.href}>
+                          <Link
+                            href={link.href}
+                            onClick={close}
+                            className="arc-mobile-nav__link"
+                          >
+                            {link.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </nav>
+            </aside>
+          </>,
+          document.body
+        )
+      : null;
 
   return (
-    <div className="md:hidden">
+    <div className="relative z-[60] md:hidden">
       <button
         type="button"
-        onClick={() => setOpen(true)}
-        className="arc-btn arc-btn-secondary flex h-9 w-9 items-center justify-center !p-0"
-        aria-label="Open menu"
-      >
-        <Menu className="h-4 w-4" />
-      </button>
-
-      {open && (
-        <div
-          className="fixed inset-0 z-[100] bg-black/50"
-          onClick={() => setOpen(false)}
-          aria-hidden
-        />
-      )}
-
-      <aside
+        onClick={() => setOpen((v) => !v)}
         className={cn(
-          "fixed right-0 top-0 z-[101] flex h-full w-[min(100%,300px)] flex-col border-l border-[var(--arc-border)] bg-[var(--arc-bg)]",
-          open ? "translate-x-0" : "translate-x-full",
-          "transition-transform duration-300"
+          "arc-mobile-nav__icon-btn",
+          open && "border-[var(--arc-hover-border)]"
         )}
-        aria-hidden={!open}
+        aria-label={open ? "Close menu" : "Open menu"}
+        aria-expanded={open}
+        aria-controls="arc-mobile-nav"
       >
-        <div className="flex items-center justify-between border-b border-[var(--arc-border)] px-4 py-4">
-          <span className="arc-mono text-[10px] text-[var(--arc-muted)]">
-            Menu
-          </span>
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="arc-btn arc-btn-secondary flex h-9 w-9 items-center justify-center !p-0"
-            aria-label="Close menu"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-
-        <nav className="flex-1 overflow-y-auto p-4">
-          {menuLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="block py-2.5 text-sm text-[var(--arc-fg)]"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="border-t border-[var(--arc-border)] p-4">
-          <ThemeToggle />
-        </div>
-      </aside>
+        {open ? (
+          <X className="h-5 w-5" aria-hidden />
+        ) : (
+          <Menu className="h-5 w-5" aria-hidden />
+        )}
+      </button>
+      {drawer}
     </div>
   );
 }
