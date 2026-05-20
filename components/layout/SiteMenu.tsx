@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
+import { ArcLogo } from "@/components/brand/ArcLogo";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { siteMenuSections } from "@/lib/site-nav";
 import { cn } from "@/lib/utils";
@@ -59,11 +60,14 @@ export function SiteMenu() {
               aria-label="Site menu"
             >
               <div className="arc-site-menu__header">
-                <div>
-                  <p className="arc-mono text-[10px] uppercase tracking-widest text-[var(--arc-muted)]">
-                    ARC
-                  </p>
-                  <p className="arc-heading mt-0.5 text-base">Menu</p>
+                <div className="flex items-center gap-2.5">
+                  <ArcLogo size={28} variant="page" />
+                  <div>
+                    <p className="arc-heading text-base leading-none">ARC</p>
+                    <p className="arc-mono mt-1 text-[10px] uppercase tracking-widest text-[var(--arc-muted)]">
+                      Menu
+                    </p>
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <ThemeToggle />

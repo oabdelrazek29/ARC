@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { BrandLink } from "@/components/brand/BrandLink";
 import { SiteMenu } from "@/components/layout/SiteMenu";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { desktopPrimaryLinks } from "@/lib/site-nav";
@@ -26,9 +27,7 @@ export function Navbar() {
   return (
     <header className="arc-navbar">
       <nav className="arc-navbar__inner">
-        <Link href="/" className="arc-heading shrink-0 text-lg">
-          ARC
-        </Link>
+        <BrandLink className="shrink-0" priority />
 
         <div className="arc-nav-center">
           {desktopPrimaryLinks.map((l) => (

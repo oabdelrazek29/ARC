@@ -1,10 +1,17 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+
 import { ImageResponse } from "next/og";
 
-export const alt = "ARC — Cognitive Learning System";
+export const alt = "ARC — Cognitive Learning OS";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpenGraphImage() {
+export default async function OpenGraphImage() {
+  const logoPath = join(process.cwd(), "public/images/logo-nav.png");
+  const logoBuffer = await readFile(logoPath);
+  const logoSrc = `data:image/png;base64,${logoBuffer.toString("base64")}`;
+
   return new ImageResponse(
     (
       <div
@@ -16,31 +23,23 @@ export default function OpenGraphImage() {
           alignItems: "center",
           justifyContent: "center",
           background: "#0a0a0a",
-          color: "#ffffff",
+          color: "#faf9f6",
         }}
       >
-        <svg
-          width="120"
-          height="120"
-          viewBox="0 0 40 40"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M8 28 Q20 8 32 28"
-            stroke="#22c55e"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-          />
-          <circle cx="8" cy="28" r="3.5" fill="#22c55e" />
-          <circle cx="20" cy="12" r="4" fill="#4ade80" />
-          <circle cx="32" cy="28" r="3.5" fill="#22c55e" />
-          <circle cx="14" cy="22" r="2" fill="#86efac" />
-          <circle cx="26" cy="22" r="2" fill="#86efac" />
-        </svg>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={logoSrc}
+          alt=""
+          width={96}
+          height={96}
+          style={{
+            borderRadius: 8,
+            objectFit: "contain",
+          }}
+        />
         <div
           style={{
-            marginTop: 32,
+            marginTop: 28,
             fontSize: 56,
             fontWeight: 700,
             letterSpacing: "-0.02em",
@@ -51,13 +50,13 @@ export default function OpenGraphImage() {
         <div
           style={{
             marginTop: 12,
-            fontSize: 24,
-            color: "#a3a3a3",
-            letterSpacing: "0.12em",
+            fontSize: 22,
+            color: "#a8a29e",
+            letterSpacing: "0.14em",
             textTransform: "uppercase",
           }}
         >
-          Cognitive Learning System
+          Cognitive Learning OS
         </div>
       </div>
     ),

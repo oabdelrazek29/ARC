@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { BrandLink } from "@/components/brand/BrandLink";
+
 const systemLinks = [
   { href: "/sign-in", label: "Login" },
   { href: "/cognitive", label: "Begin learning" },
@@ -19,9 +21,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-[72rem] px-4 py-14 md:px-8">
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
-            <Link href="/" className="arc-heading text-lg">
-              ARC
-            </Link>
+            <BrandLink logoSize={28} />
             <p className="arc-footer-tagline mt-4 max-w-sm">
               A system for the serious learner — breaking down what you want to
               know, one path at a time.

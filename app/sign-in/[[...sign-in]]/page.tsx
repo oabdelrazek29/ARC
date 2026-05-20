@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SignIn } from "@clerk/nextjs";
 
+import { BrandLink } from "@/components/brand/BrandLink";
 import { SetupRequired } from "@/components/lms/SetupRequired";
 
 export default function SignInPage() {
@@ -21,6 +22,7 @@ export default function SignInPage() {
   return (
     <div className="arc-split-hero -mx-0 min-h-[calc(100dvh-3.5rem)]">
       <div className="arc-split-editorial">
+        <BrandLink className="mb-8" logoSize={36} />
         <p className="arc-colophon">
           § — Return · sign in to your study · Edition MMXXVI
         </p>
