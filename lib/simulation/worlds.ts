@@ -1,3 +1,4 @@
+import { svgCoord } from "@/lib/svg-coords";
 import type { SimEdge, SimNode, SimUserWorld } from "@/lib/simulation/types";
 import { seeded } from "@/lib/simulation/seed";
 
@@ -40,10 +41,10 @@ function buildNodes(worldId: string, count: number): SimNode[] {
     nodes.push({
       id: `${worldId}-n${i}`,
       label: labels[i % labels.length]!,
-      x: 0.5 + Math.cos(angle) * r,
-      y: 0.5 + Math.sin(angle) * r,
+      x: svgCoord(0.5 + Math.cos(angle) * r, 4),
+      y: svgCoord(0.5 + Math.sin(angle) * r, 4),
       state: i % 3 === 0 ? "unstable" : "stable",
-      confidence: 0.35 + seeded(worldId.charCodeAt(0), i) * 0.5,
+      confidence: svgCoord(0.35 + seeded(worldId.charCodeAt(0), i) * 0.5, 4),
     });
   }
   return nodes;

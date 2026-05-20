@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   advanceSimulation,
@@ -10,19 +10,27 @@ import type { SimulationSnapshot } from "@/lib/simulation/types";
 
 const TICK_MS = 1600;
 
+const EMPTY_SNAPSHOT: SimulationSnapshot = {
+  tick: 0,
+  worlds: [],
+  stream: [],
+  background: [],
+};
+
 export function useSimulation(enabled = true) {
-  const [snapshot, setSnapshot] = useState<SimulationSnapshot>(() =>
-    createInitialSnapshot()
-  );
-  const tick = useCallback(() => {
-    setSnapshot((prev) => advanceSimulation(prev));
+  const [snapshot, setSnapshot] = useState<SimulationSnapshot | null>(null);
+
+  useEffect(() => {
+    setSnapshot(createInitialSnapshot());
   }, []);
 
   useEffect(() => {
     if (!enabled) return;
-    const id = window.setInterval(tick, TICK_MS);
+    const id = window.setInterval(() => {
+      setSnapshot((prev) => (prev ? advanceSimulation(prev) : prev));
+    }, TICK_MS);
     return () => window.clearInterval(id);
-  }, [enabled, tick]);
+  }, [enabled]);
 
-  return snapshot;
+  return snapshot ?? EMPTY_SNAPSHOT;
 }

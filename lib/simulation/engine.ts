@@ -1,6 +1,7 @@
 import { generateStreamMessage, nextEventKind } from "@/lib/simulation/stream-events";
 import { createBackgroundNodes, createInitialWorlds } from "@/lib/simulation/worlds";
 import { seeded } from "@/lib/simulation/seed";
+import { svgCoord } from "@/lib/svg-coords";
 import type {
   BackgroundNode,
   SimNodeState,
@@ -22,9 +23,9 @@ function tickWorld(world: SimUserWorld, tick: number, worldIndex: number): SimUs
   const nodes = world.nodes.map((n, i) => {
     if (i !== nodeIndex) return n;
     const state = STATES[Math.floor(seeded(tick, i + 20) * STATES.length)]!;
-    const confidence = Math.max(
-      0.1,
-      Math.min(1, n.confidence + (seeded(tick, i) - 0.5) * 0.15)
+    const confidence = svgCoord(
+      Math.max(0.1, Math.min(1, n.confidence + (seeded(tick, i) - 0.5) * 0.15)),
+      4
     );
     return { ...n, state, confidence };
   });
@@ -40,8 +41,8 @@ function tickBackground(bg: BackgroundNode[], tick: number): BackgroundNode[] {
   return bg.map((n, i) => ({
     ...n,
     opacity: 0.12 + Math.abs(Math.sin(tick * 0.15 + n.pulse * 6)) * 0.4,
-    x: n.x + Math.sin(tick * 0.02 + i) * 0.0008,
-    y: n.y + Math.cos(tick * 0.02 + i) * 0.0008,
+    x: svgCoord(n.x + Math.sin(tick * 0.02 + i) * 0.0008, 4),
+    y: svgCoord(n.y + Math.cos(tick * 0.02 + i) * 0.0008, 4),
   }));
 }
 
@@ -68,7 +69,7 @@ export function createInitialSnapshot(): SimulationSnapshot {
   const worlds = createInitialWorlds();
   const stream: SimStreamEvent[] = worlds.map((w, i) => ({
     id: `init-${w.id}`,
-    at: new Date().toISOString(),
+    at: "1970-01-01T00:00:00.000Z",
     kind: "breakthrough" as const,
     message: `${w.label} — cognitive map online (${w.topic})`,
     userId: w.id,

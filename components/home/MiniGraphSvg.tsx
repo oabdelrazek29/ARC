@@ -2,6 +2,8 @@
 
 import { memo, useMemo } from "react";
 
+import { useClientMounted } from "@/hooks/use-client-mounted";
+import { svgCoord } from "@/lib/svg-coords";
 import type { SimEdge, SimNode } from "@/lib/simulation/types";
 
 type Props = {
@@ -13,6 +15,8 @@ type Props = {
 
 /** Monochrome constellation-style graph preview */
 function MiniGraphSvgInner({ nodes, edges, className }: Props) {
+  const mounted = useClientMounted();
+
   const edgeEls = useMemo(
     () =>
       edges.map((e) => {
@@ -23,10 +27,10 @@ function MiniGraphSvgInner({ nodes, edges, className }: Props) {
         return (
           <line
             key={e.id}
-            x1={from.x * 100}
-            y1={from.y * 100}
-            x2={to.x * 100}
-            y2={to.y * 100}
+            x1={svgCoord(from.x * 100)}
+            y1={svgCoord(from.y * 100)}
+            x2={svgCoord(to.x * 100)}
+            y2={svgCoord(to.y * 100)}
             stroke="var(--arc-graph-edge)"
             strokeWidth={weak ? 0.4 : 0.7}
             strokeDasharray={weak ? "2 3" : undefined}
@@ -36,6 +40,17 @@ function MiniGraphSvgInner({ nodes, edges, className }: Props) {
       }),
     [edges, nodes]
   );
+
+  if (!mounted) {
+    return (
+      <svg
+        viewBox="0 0 100 100"
+        className={className}
+        aria-hidden
+        preserveAspectRatio="xMidYMid meet"
+      />
+    );
+  }
 
   return (
     <svg
@@ -52,11 +67,12 @@ function MiniGraphSvgInner({ nodes, edges, className }: Props) {
       </defs>
       {edgeEls}
       {nodes.map((n) => {
-        const cx = n.x * 100;
-        const cy = n.y * 100;
+        const cx = svgCoord(n.x * 100);
+        const cy = svgCoord(n.y * 100);
         const unstable = n.state === "unstable" || n.state === "decaying";
         const mastered = n.state === "stable" || n.state === "strengthening";
         const r = unstable ? 5 : 4;
+        const opacity = svgCoord(0.55 + n.confidence * 0.45, 3);
 
         return (
           <g key={n.id}>
@@ -69,7 +85,7 @@ function MiniGraphSvgInner({ nodes, edges, className }: Props) {
               stroke="var(--arc-fg)"
               strokeWidth={unstable ? 0.6 : 1}
               strokeDasharray={unstable ? "2 2" : undefined}
-              opacity={0.55 + n.confidence * 0.45}
+              opacity={opacity}
             />
             {mastered && (
               <circle
