@@ -78,6 +78,12 @@ export function LandingPage() {
               >
                 View dashboard
               </Link>
+              <Link
+                href="/cognitive"
+                className={buttonVariants({ variant: "outline", size: "lg" })}
+              >
+                Cognitive OS
+              </Link>
             </div>
           </motion.div>
           <motion.div

@@ -1,5 +1,5 @@
-import { LandingPage } from "@/components/arc/LandingPage";
+import { HomeExperience } from "@/components/home/HomeExperience";
 
 export default function Home() {
-  return <LandingPage />;
+  return <HomeExperience />;
 }

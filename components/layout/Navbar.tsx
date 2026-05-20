@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 const arcLinks = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/goals/new", label: "New Goal" },
+  { href: "/cognitive", label: "Cognitive OS" },
 ];
 
 const lmsLinks = [
