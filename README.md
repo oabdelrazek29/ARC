@@ -19,6 +19,6 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Deploy
 
-Production: [https://arc-oabdelrazek29s-projects.vercel.app](https://arc-oabdelrazek29s-projects.vercel.app)
+Production: [https://my-app-eta-nine-83.vercel.app](https://my-app-eta-nine-83.vercel.app) (also `https://arc-oabdelrazek29s-projects.vercel.app`)
 
 Push to `main` on [GitHub](https://github.com/oabdelrazek29/ARC) to trigger Vercel deploys.

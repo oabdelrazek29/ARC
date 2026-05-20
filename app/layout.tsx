@@ -23,7 +23,10 @@ const jetbrainsMono = JetBrains_Mono({
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
-  "https://arc-oabdelrazek29s-projects.vercel.app";
+  "https://my-app-eta-nine-83.vercel.app";
+
+/** Bust aggressive browser favicon cache after logo updates */
+const iconVersion = "arc-mark-v3";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -35,9 +38,9 @@ export const metadata: Metadata = {
   description:
     "Learn with structure, understand with clarity. ARC builds a path that adapts as you go.",
   icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    apple: [{ url: "/apple-icon.svg", type: "image/svg+xml" }],
-    shortcut: [{ url: "/arc-mark.svg", type: "image/svg+xml" }],
+    icon: [{ url: `/icon.svg?${iconVersion}`, type: "image/svg+xml" }],
+    apple: [{ url: `/apple-icon.svg?${iconVersion}`, type: "image/svg+xml" }],
+    shortcut: [{ url: `/arc-mark.svg?${iconVersion}`, type: "image/svg+xml" }],
   },
   openGraph: {
     siteName: "ARC",
