@@ -1,6 +1,6 @@
 # ARC — API keys you need
 
-I **cannot** create these for you. Sign up on each service and paste values into `my-app/.env.local`, then restart `npm run dev`.
+I **cannot** create these for you. Sign up on each service and paste values into `.env.local`, then restart `npm run dev`.
 
 Based on the [saas-app tutorial](https://github.com/adrianhajdin/saas-app).
 

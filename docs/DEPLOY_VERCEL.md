@@ -4,10 +4,11 @@
 
 1. Go to [https://vercel.com/new](https://vercel.com/new)
 2. Import **https://github.com/oabdelrazek29/ARC**
-3. Framework: **Next.js** (auto-detected)
-4. Root Directory: **`.`** (leave default — repo root is the app)
-5. Build Command: `npm run build` (default)
-6. Output: default
+3. Project name: **arc** (production URL: `https://arc.vercel.app`)
+4. Framework: **Next.js** (auto-detected)
+5. Root Directory: **`.`** (leave default — repo root is the app)
+6. Build Command: `npm run build` (default)
+7. Output: default
 
 ## 2. Environment variables
 
@@ -30,7 +31,7 @@ Apply to **Production**, **Preview**, and **Development**.
 
 In [Clerk Dashboard](https://dashboard.clerk.com) → your app → **Domains**, add your Vercel URL, e.g.:
 
-- `https://your-project.vercel.app`
+- `https://arc.vercel.app`
 
 ## 4. Redeploy
 
@@ -39,7 +40,7 @@ After env vars are set: **Deployments** → ⋮ on latest → **Redeploy**.
 ## CLI (optional)
 
 ```bash
-cd my-app
+cd arc
 npx vercel login
 npx vercel --prod
 ```

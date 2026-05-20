@@ -22,9 +22,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ARC — Turn Any Goal Into a Skill Tree",
+  applicationName: "ARC",
+  title: {
+    default: "ARC — Turn Any Goal Into a Skill Tree",
+    template: "%s | ARC",
+  },
   description:
     "AI-powered adaptive learning. RPG-style skill trees, XP, boss battles, and mastery paths.",
+  openGraph: {
+    siteName: "ARC",
+    title: "ARC — Turn Any Goal Into a Skill Tree",
+    description:
+      "AI-powered adaptive learning. RPG-style skill trees, XP, boss battles, and mastery paths.",
+  },
 };
 
 export default function RootLayout({
