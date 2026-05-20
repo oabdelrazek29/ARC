@@ -1,10 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Brain, GitBranch, Sparkles } from "lucide-react";
 
 import { ArcButton } from "@/components/arc-ui/ArcButton";
-import { ArcCard } from "@/components/arc-ui/ArcCard";
 import { PillBadge } from "@/components/arc-ui/PillBadge";
 import { IntelligenceStream } from "@/components/home/IntelligenceStream";
 import { LiveSimulationLayer } from "@/components/home/LiveSimulationLayer";
@@ -21,6 +19,24 @@ const SimulationEngine = dynamic(
     import("@/components/home/SimulationShell").then((m) => m.SimulationShell),
   { ssr: false }
 );
+
+const HOW_IT_WORKS = [
+  {
+    step: "01",
+    title: "You tell ARC what you want to learn.",
+    sub: "No need to know where to start. Just say what you're after.",
+  },
+  {
+    step: "02",
+    title: "It breaks it into parts you can actually understand.",
+    sub: "Structured into pieces — not overwhelming, not surface level.",
+  },
+  {
+    step: "03",
+    title: "As you go, it adjusts based on how you think.",
+    sub: "ARC adapts when you get stuck — not after you finish.",
+  },
+] as const;
 
 export function HomeExperience() {
   const snapshot = useSimulation(true);
@@ -45,21 +61,25 @@ export function HomeExperience() {
         </div>
 
         <div className="relative z-10 arc-section pb-16 pt-28 md:pb-24">
-          <PillBadge live className="arc-fade-up">
-            Intelligence simulation
-          </PillBadge>
-          <h1 className="arc-heading arc-fade-up arc-fade-up-delay-1 mt-6 max-w-2xl text-4xl leading-[1.05] md:text-5xl">
-            ARC is learning systems for thinking.
+          <p className="arc-mono arc-fade-up text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--arc-muted)]">
+            ARC // Cognitive Learning System
+          </p>
+          <h1 className="arc-heading arc-fade-up arc-fade-up-delay-1 mt-5 max-w-2xl text-4xl leading-[1.05] md:text-5xl">
+            Learn anything. But actually understand it.
           </h1>
-          <p className="arc-fade-up arc-fade-up-delay-2 mt-4 max-w-lg text-base text-[var(--arc-muted)] md:text-lg">
-            Watch intelligence evolve in real time.
+          <p className="arc-fade-up arc-fade-up-delay-2 mt-4 max-w-xl text-base leading-relaxed text-[var(--arc-muted)] md:text-lg">
+            ARC breaks down what you want to learn and builds a path that adapts
+            as you go. Not courses. Not videos. Just structured understanding.
           </p>
           <div className="arc-fade-up arc-fade-up-delay-3 pointer-events-auto mt-8 flex flex-wrap gap-3">
-            <ArcButton href="/cognitive">Enter the system</ArcButton>
+            <ArcButton href="/cognitive">Enter system</ArcButton>
             <ArcButton href="#simulation" variant="secondary">
               Observe simulations
             </ArcButton>
           </div>
+          <p className="arc-fade-up arc-fade-up-delay-3 mt-8 max-w-lg text-sm italic text-[var(--arc-muted)]">
+            Start with something simple. ARC handles the structure.
+          </p>
         </div>
       </section>
 
@@ -83,27 +103,39 @@ export function HomeExperience() {
 
       <hr className="arc-divider" />
 
-      {/* Features — 3 column */}
+      {/* How it works */}
       <section className="arc-section arc-dot-grid">
-        <PillBadge>New Release</PillBadge>
-        <h2 className="arc-heading mt-4 text-2xl">How ARC thinks</h2>
+        <h2 className="arc-heading text-2xl">How it works</h2>
         <div className="arc-feature-grid mt-10">
-          <ArcCard
-            title="Graph-based learning"
-            description="Mental models as living nodes — weaknesses, mastery, and drift."
-            icon={<GitBranch className="h-5 w-5 text-[var(--arc-accent)]" />}
-          />
-          <ArcCard
-            title="AI advisor"
-            description="Reads your graph before responding. Targets unstable nodes first."
-            icon={<Brain className="h-5 w-5 text-[var(--arc-accent)]" />}
-          />
-          <ArcCard
-            title="Adaptive modeling"
-            description="Understanding evolves — stable, decaying, strengthening over time."
-            icon={<Sparkles className="h-5 w-5 text-[var(--arc-accent)]" />}
-          />
+          {HOW_IT_WORKS.map((item) => (
+            <article key={item.step} className="arc-card">
+              <p className="arc-mono text-xs font-medium text-[var(--arc-accent)]">
+                {item.step}
+              </p>
+              <h3 className="arc-heading mt-3 text-base text-[var(--arc-fg)]">
+                {item.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-[var(--arc-muted)]">
+                {item.sub}
+              </p>
+            </article>
+          ))}
         </div>
+      </section>
+
+      <hr className="arc-divider" />
+
+      {/* What changes */}
+      <section className="arc-section arc-dot-grid">
+        <h2 className="arc-heading text-2xl">What changes</h2>
+        <div className="mt-8 max-w-xl space-y-4 text-base leading-relaxed text-[var(--arc-muted)]">
+          <p>You stop following courses.</p>
+          <p>You start building understanding that evolves with you.</p>
+          <p>ARC adapts when you get stuck, not after you finish.</p>
+        </div>
+        <p className="mt-10 text-sm text-[var(--arc-muted)]">
+          Try it. Just type what you want to learn.
+        </p>
       </section>
 
       <hr className="arc-divider" />
@@ -122,6 +154,18 @@ export function HomeExperience() {
         </div>
         <div className="mt-16">
           <SystemExplanationPanel />
+        </div>
+      </section>
+
+      <hr className="arc-divider" />
+
+      {/* Bottom CTA */}
+      <section className="arc-section arc-dot-grid pb-20 pt-4 text-center">
+        <p className="text-sm text-[var(--arc-muted)]">
+          Everything updates as you go. Nothing is fixed.
+        </p>
+        <div className="mt-6 flex justify-center">
+          <ArcButton href="/cognitive">Enter ARC →</ArcButton>
         </div>
       </section>
     </div>
