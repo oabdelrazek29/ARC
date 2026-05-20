@@ -6,7 +6,7 @@ type ArcMarkProps = {
   showGlow?: boolean;
 };
 
-/** Vector ARC mark — arc path with skill-tree nodes (matches site favicon). */
+/** Vector ARC mark — arc path with skill-tree nodes. */
 export function ArcMark({ size = 36, className, showGlow = true }: ArcMarkProps) {
   return (
     <svg
@@ -21,32 +21,23 @@ export function ArcMark({ size = 36, className, showGlow = true }: ArcMarkProps)
       {showGlow && (
         <defs>
           <linearGradient id="arc-mark-grad" x1="4" y1="36" x2="36" y2="4">
-            <stop offset="0%" stopColor="#22c55e" />
-            <stop offset="50%" stopColor="#4ade80" />
-            <stop offset="100%" stopColor="#22c55e" />
+            <stop offset="0%" stopColor="var(--arc-accent)" />
+            <stop offset="100%" stopColor="var(--arc-accent-soft)" />
           </linearGradient>
-          <filter id="arc-mark-glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="1.2" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
         </defs>
       )}
       <path
         d="M8 28 Q20 8 32 28"
-        stroke={showGlow ? "url(#arc-mark-grad)" : "#22c55e"}
+        stroke={showGlow ? "url(#arc-mark-grad)" : "var(--arc-accent)"}
         strokeWidth="2"
         strokeLinecap="round"
         fill="none"
-        filter={showGlow ? "url(#arc-mark-glow)" : undefined}
       />
-      <circle cx="8" cy="28" r="3.5" fill="#22c55e" />
-      <circle cx="20" cy="12" r="4" fill="#4ade80" />
-      <circle cx="32" cy="28" r="3.5" fill="#22c55e" />
-      <circle cx="14" cy="22" r="2" fill="#86efac" opacity="0.9" />
-      <circle cx="26" cy="22" r="2" fill="#86efac" opacity="0.9" />
+      <circle cx="8" cy="28" r="3.5" fill="var(--arc-accent)" />
+      <circle cx="20" cy="12" r="4" fill="var(--arc-accent-soft)" />
+      <circle cx="32" cy="28" r="3.5" fill="var(--arc-accent)" />
+      <circle cx="14" cy="22" r="2" fill="var(--arc-accent-soft)" opacity="0.9" />
+      <circle cx="26" cy="22" r="2" fill="var(--arc-accent-soft)" opacity="0.9" />
     </svg>
   );
 }
