@@ -2,8 +2,7 @@
 
 ARC is a Next.js learning product that turns goals into structured paths: skill trees, a cognitive graph workspace, voice tutors, and AI advisers. The public marketing site is open to everyone; personal progress and account features use [Clerk](https://clerk.com) when configured.
 
-**Production:** [https://my-app-eta-nine-83.vercel.app](https://my-app-eta-nine-83.vercel.app)  
-**Also available:** [https://arc-oabdelrazek29s-projects.vercel.app](https://arc-oabdelrazek29s-projects.vercel.app)  
+**Production:** [https://arc-oabdelrazek29s-projects.vercel.app](https://arc-oabdelrazek29s-projects.vercel.app)  
 **Repository:** [github.com/oabdelrazek29/ARC](https://github.com/oabdelrazek29/ARC)
 
 ---
@@ -168,7 +167,7 @@ See **[docs/ARC_KEYS.md](docs/ARC_KEYS.md)** for every key, where to get it, and
 Optional production URL for metadata and Open Graph:
 
 ```env
-NEXT_PUBLIC_SITE_URL=https://my-app-eta-nine-83.vercel.app
+NEXT_PUBLIC_SITE_URL=https://arc-oabdelrazek29s-projects.vercel.app
 ```
 
 ---

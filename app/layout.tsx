@@ -23,7 +23,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
-  "https://my-app-eta-nine-83.vercel.app";
+  "https://arc-oabdelrazek29s-projects.vercel.app";
 
 /** Bust aggressive browser favicon cache after logo updates */
 const iconVersion = "arc-mark-v3";
