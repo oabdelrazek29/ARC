@@ -35,12 +35,9 @@ export const metadata: Metadata = {
   description:
     "Learn with structure, understand with clarity. ARC builds a path that adapts as you go.",
   icons: {
-    icon: [
-      { url: "/images/logo-icon.png", sizes: "32x32", type: "image/png" },
-    ],
-    apple: [
-      { url: "/images/logo-apple.png", sizes: "180x180", type: "image/png" },
-    ],
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/apple-icon.svg", type: "image/svg+xml" }],
+    shortcut: [{ url: "/arc-mark.svg", type: "image/svg+xml" }],
   },
   openGraph: {
     siteName: "ARC",

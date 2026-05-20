@@ -7,18 +7,16 @@ type BrandLinkProps = {
   className?: string;
   showWordmark?: boolean;
   logoSize?: number;
-  priority?: boolean;
 };
 
 export function BrandLink({
   className,
   showWordmark = true,
   logoSize = 32,
-  priority = false,
 }: BrandLinkProps) {
   return (
     <Link href="/" className={cn("arc-brand-link", className)}>
-      <ArcLogo size={logoSize} variant="nav" priority={priority} />
+      <ArcLogo size={logoSize} />
       {showWordmark ? <span className="arc-brand-link__wordmark">ARC</span> : null}
     </Link>
   );

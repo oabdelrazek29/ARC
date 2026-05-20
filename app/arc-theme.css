@@ -260,29 +260,10 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  overflow: hidden;
-  border-radius: 4px;
 }
 
-.arc-brand-logo--nav {
-  background: var(--arc-nav-bg);
-}
-
-.arc-brand-logo--page {
-  background: var(--arc-bg);
-}
-
-.arc-brand-logo__img {
+.arc-mark {
   display: block;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain;
-  mix-blend-mode: multiply;
-}
-
-[data-theme="dark"] .arc-brand-logo__img {
-  mix-blend-mode: screen;
-  opacity: 0.98;
 }
 
 @media (min-width: 768px) {

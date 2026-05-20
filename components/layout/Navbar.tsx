@@ -27,7 +27,7 @@ export function Navbar() {
   return (
     <header className="arc-navbar">
       <nav className="arc-navbar__inner">
-        <BrandLink className="shrink-0" priority />
+        <BrandLink className="shrink-0" />
 
         <div className="arc-nav-center">
           {desktopPrimaryLinks.map((l) => (

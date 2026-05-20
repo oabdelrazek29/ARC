@@ -61,7 +61,7 @@ export function SiteMenu() {
             >
               <div className="arc-site-menu__header">
                 <div className="flex items-center gap-2.5">
-                  <ArcLogo size={28} variant="page" />
+                  <ArcLogo size={28} />
                   <div>
                     <p className="arc-heading text-base leading-none">ARC</p>
                     <p className="arc-mono mt-1 text-[10px] uppercase tracking-widest text-[var(--arc-muted)]">
