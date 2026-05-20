@@ -33,7 +33,7 @@ function HomeAdvisorSectionInner({ children, advisor }: Props) {
           onClick={toggle}
           className="arc-advisor-section__toggle"
         >
-          {open ? "Close Adviser" : "Open AI Adviser"}
+          {open ? "Close AI Advisor" : "Open AI Advisor"}
         </button>
       </div>
 

@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: "%s | ARC",
   },
   description:
-    "Learn anything, but actually understand it. ARC builds a path that adapts as you go.",
+    "Learn with structure, understand with clarity. ARC builds a path that adapts as you go.",
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     apple: [{ url: "/apple-icon.svg", type: "image/svg+xml" }],
@@ -42,14 +42,14 @@ export const metadata: Metadata = {
     siteName: "ARC",
     title: "ARC — Cognitive Learning OS",
     description:
-      "Learn anything, but actually understand it. ARC builds a path that adapts as you go.",
+      "Learn with structure, understand with clarity. ARC builds a path that adapts as you go.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "ARC — Cognitive Learning OS",
     description:
-      "Learn anything, but actually understand it. ARC builds a path that adapts as you go.",
+      "Learn with structure, understand with clarity. ARC builds a path that adapts as you go.",
   },
 };
 
