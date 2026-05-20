@@ -17,13 +17,16 @@ enum Subject {
   business = "business",
 }
 
-type Companion = Models.DocumentList<Models.Document> & {
-  $id: string;
+type Companion = {
+  id: string;
   name: string;
-  subject: Subject;
+  subject: Subject | string;
   topic: string;
   duration: number;
-  bookmarked: boolean;
+  voice?: string;
+  style?: string;
+  author?: string;
+  bookmarked?: boolean;
 };
 
 interface CreateCompanion {

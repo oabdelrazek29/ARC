@@ -232,3 +232,101 @@ body {
     scrollbar-width: none;
   }
 }
+
+/* ARC — skill tree & learning OS */
+.arc-page {
+  @apply bg-zinc-950 text-zinc-100;
+}
+
+.arc-glow {
+  background: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    oklch(0.55 0.15 200 / 0.15),
+    transparent
+  );
+}
+
+.arc-skill-node {
+  @apply border-zinc-700/80 bg-zinc-900/90 shadow-lg;
+  box-shadow: 0 0 0 1px oklch(0.7 0.1 200 / 0.08);
+}
+
+.arc-skill-node--active {
+  border-color: oklch(0.7 0.12 200 / 0.45);
+  box-shadow: 0 0 20px oklch(0.65 0.15 200 / 0.2);
+}
+
+.arc-skill-node--done {
+  border-color: oklch(0.65 0.12 160 / 0.5);
+}
+
+.react-flow__edge.arc-edge path {
+  stroke: oklch(0.65 0.12 200 / 0.5);
+  stroke-width: 2;
+}
+
+.react-flow__edge.arc-edge--done path {
+  stroke: oklch(0.65 0.12 160 / 0.6);
+}
+
+/* LMS features from tutorial — styled for ARC dark theme */
+.arc-lms-page {
+  @apply mx-auto max-w-6xl px-4 py-10;
+}
+
+@layer components {
+  .companions-grid {
+    @apply flex flex-wrap gap-4 w-full justify-start;
+  }
+  .companion-card {
+    @apply flex flex-col rounded-2xl border border-zinc-700 bg-zinc-900/60 px-4 py-4 gap-5 w-full min-lg:max-w-[410px] justify-between transition-colors hover:border-cyan-500/30;
+  }
+  .subject-badge {
+    @apply rounded-full text-sm px-2 py-1 capitalize text-zinc-900 font-medium;
+  }
+  .companion-bookmark {
+    @apply px-2 bg-zinc-800 rounded-full flex items-center h-full aspect-square cursor-pointer hover:bg-zinc-700;
+  }
+  .companion-list {
+    @apply rounded-2xl border border-zinc-700 px-7 pt-7 pb-10 max-lg:w-full bg-zinc-900/50;
+  }
+  .companion-limit {
+    @apply items-center justify-center flex flex-col gap-4 w-full min-2xl:w-1/2 pt-20 text-center;
+  }
+  .companion-section {
+    @apply border border-cyan-500/30 w-2/3 max-sm:w-full flex flex-col gap-4 justify-center items-center rounded-2xl bg-zinc-900/40;
+  }
+  .companion-avatar {
+    @apply size-[300px] flex items-center justify-center rounded-lg max-sm:size-[100px] mt-4 relative;
+  }
+  .companion-lottie {
+    @apply size-[300px] max-sm:size-[100px];
+  }
+  .user-section {
+    @apply flex flex-col gap-4 w-1/3 max-sm:w-full max-sm:flex-row;
+  }
+  .user-avatar {
+    @apply border border-zinc-700 flex flex-col gap-4 items-center rounded-lg py-8 max-sm:hidden bg-zinc-900/50;
+  }
+  .btn-mic {
+    @apply border border-zinc-700 rounded-lg flex flex-col gap-2 items-center py-8 max-sm:py-2 cursor-pointer w-full hover:bg-zinc-800/50;
+  }
+  .transcript {
+    @apply relative flex flex-col gap-4 w-full items-center pt-10 flex-grow overflow-hidden;
+  }
+  .transcript-message {
+    @apply overflow-y-auto w-full flex flex-col gap-4 max-sm:gap-2 pr-2 h-full text-lg;
+  }
+  .transcript-fade {
+    @apply pointer-events-none absolute bottom-0 left-0 right-0 h-40 max-sm:h-20 bg-gradient-to-t from-zinc-950 via-zinc-950/90 to-transparent z-10;
+  }
+  .cta-section {
+    @apply bg-zinc-900 border border-zinc-700 text-white rounded-2xl px-7 py-10 flex flex-col items-center text-center gap-5 w-1/3 max-lg:w-1/2 max-md:w-full;
+  }
+  .cta-badge {
+    @apply bg-cyan-500/20 text-cyan-300 rounded-full px-3 py-1.5;
+  }
+  .home-section {
+    @apply flex gap-4 justify-between items-start w-full max-lg:flex-col-reverse max-lg:items-center;
+  }
+}
