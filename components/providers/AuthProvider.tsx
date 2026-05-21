@@ -1,7 +1,15 @@
 "use client";
 
+import { createContext, useContext } from "react";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ui } from "@clerk/ui";
 import { shadcn } from "@clerk/ui/themes";
+
+const ClerkEnabledContext = createContext(false);
+
+export function useClerkEnabled() {
+  return useContext(ClerkEnabledContext);
+}
 
 const arcClerkAppearance = {
   theme: shadcn,
@@ -19,11 +27,36 @@ const arcClerkAppearance = {
   },
 };
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  if (process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
+type Props = {
+  children: React.ReactNode;
+  /** Passed from server layout so keys work at runtime on Vercel */
+  publishableKey?: string | null;
+};
+
+export function AuthProvider({ children, publishableKey }: Props) {
+  const key = publishableKey?.trim();
+  const enabled = Boolean(key?.startsWith("pk_"));
+
+  if (!enabled) {
     return (
-      <ClerkProvider appearance={arcClerkAppearance}>{children}</ClerkProvider>
+      <ClerkEnabledContext.Provider value={false}>
+        {children}
+      </ClerkEnabledContext.Provider>
     );
   }
-  return <>{children}</>;
+
+  return (
+    <ClerkEnabledContext.Provider value={true}>
+      <ClerkProvider
+        publishableKey={key}
+        ui={ui}
+        appearance={arcClerkAppearance}
+        signInFallbackRedirectUrl="/learn"
+        signUpFallbackRedirectUrl="/learn"
+        afterSignOutUrl="/"
+      >
+        {children}
+      </ClerkProvider>
+    </ClerkEnabledContext.Provider>
+  );
 }

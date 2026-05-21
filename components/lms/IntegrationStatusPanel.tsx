@@ -56,8 +56,9 @@ export function IntegrationStatusPanel() {
         ))}
       </ul>
       <p className="arc-mono mt-3 text-[10px] text-[var(--arc-tertiary)]">
-        Core: OpenAI + your existing .env.local. NextLMS-style video/payments need Mux +
-        Stripe (see docs/ARC_KEYS.md).
+        Clerk needs <strong>both</strong> pk_ and sk_ keys. Local: .env.local then restart dev.
+        Production: same names in Vercel → Environment Variables → <strong>Redeploy</strong>.
+        Add your site URL in Clerk Dashboard → Domains.
       </p>
     </div>
   );

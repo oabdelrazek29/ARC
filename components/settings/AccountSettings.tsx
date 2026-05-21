@@ -7,10 +7,12 @@ import { UserProfile } from "@clerk/nextjs";
 import { ArcButton } from "@/components/arc-ui/ArcButton";
 import { ArcCard } from "@/components/arc-ui/ArcCard";
 
-const hasClerk = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+import { useClerkEnabled } from "@/components/providers/AuthProvider";
 
 export function AccountSettings() {
-  if (!hasClerk) {
+  const clerkEnabled = useClerkEnabled();
+
+  if (!clerkEnabled) {
     return (
       <ArcCard title="Account" description="Clerk is not configured.">
         <p className="arc-settings-hint mt-4">Add Clerk keys to manage sign-in and security.</p>

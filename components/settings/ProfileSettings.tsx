@@ -5,11 +5,12 @@ import { useAuth, useUser } from "@clerk/nextjs";
 
 import { ArcCard } from "@/components/arc-ui/ArcCard";
 import { ArcButton } from "@/components/arc-ui/ArcButton";
-
-const hasClerk = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+import { useClerkEnabled } from "@/components/providers/AuthProvider";
 
 export function ProfileSettings() {
-  if (!hasClerk) {
+  const clerkEnabled = useClerkEnabled();
+
+  if (!clerkEnabled) {
     return (
       <ArcCard title="Profile" description="Sign-in is not configured in this environment.">
         <p className="arc-settings-hint mt-4">

@@ -8,14 +8,12 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 
+import { useClerkEnabled } from "@/components/providers/AuthProvider";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const hasClerk = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
-
 type ClerkAuthSectionProps = {
   className?: string;
-  /** Use modal flows instead of dedicated /sign-in and /sign-up pages */
   mode?: "modal" | "redirect";
 };
 
@@ -23,7 +21,9 @@ export function ClerkAuthSection({
   className,
   mode = "redirect",
 }: ClerkAuthSectionProps) {
-  if (!hasClerk) {
+  const clerkEnabled = useClerkEnabled();
+
+  if (!clerkEnabled) {
     return (
       <div className={cn("flex items-center gap-2", className)}>
         <Link
@@ -41,13 +41,14 @@ export function ClerkAuthSection({
       </div>
     );
   }
+
   const signInMode = mode === "modal" ? { mode: "modal" as const } : {};
   const signUpMode = mode === "modal" ? { mode: "modal" as const } : {};
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <Show when="signed-out">
-        <SignInButton {...signInMode}>
+        <SignInButton {...signInMode} forceRedirectUrl="/learn">
           <button
             type="button"
             className={buttonVariants({ variant: "ghost", size: "sm" })}
@@ -55,7 +56,7 @@ export function ClerkAuthSection({
             Sign in
           </button>
         </SignInButton>
-        <SignUpButton {...signUpMode}>
+        <SignUpButton {...signUpMode} forceRedirectUrl="/learn">
           <button
             type="button"
             className={buttonVariants({ variant: "default", size: "sm" })}

@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { getClerkPublishableKey } from "@/lib/clerk/env";
 
 import "./globals.css";
 import "./arc-theme.css";
@@ -62,13 +63,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const clerkPublishableKey = getClerkPublishableKey();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${fraunces.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <ThemeProvider>
-          <AuthProvider>
+          <AuthProvider publishableKey={clerkPublishableKey}>
             <Navbar />
             <main className="arc-main">{children}</main>
             <SiteFooter />

@@ -3,21 +3,30 @@ import { SignIn } from "@clerk/nextjs";
 
 import { AuthPageShell } from "@/components/auth/AuthPageShell";
 import { SetupRequired } from "@/components/lms/SetupRequired";
+import {
+  getClerkAfterAuthUrl,
+  isClerkConfigured,
+} from "@/lib/clerk/env";
+
+export const dynamic = "force-dynamic";
 
 export default function SignInPage() {
-  if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
+  if (!isClerkConfigured()) {
     return (
       <div className="arc-auth-page arc-auth-page--setup">
         <SetupRequired
           title="Sign-in needs Clerk"
           items={[
-            "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
-            "CLERK_SECRET_KEY",
+            "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY (starts with pk_)",
+            "CLERK_SECRET_KEY (starts with sk_)",
           ]}
+          hint="On Vercel: add both keys in Project → Settings → Environment Variables, then redeploy."
         />
       </div>
     );
   }
+
+  const afterAuth = getClerkAfterAuthUrl();
 
   return (
     <AuthPageShell
@@ -46,7 +55,8 @@ export default function SignInPage() {
         routing="path"
         path="/sign-in"
         signUpUrl="/sign-up"
-        fallbackRedirectUrl="/dashboard"
+        forceRedirectUrl={afterAuth}
+        fallbackRedirectUrl={afterAuth}
       />
     </AuthPageShell>
   );

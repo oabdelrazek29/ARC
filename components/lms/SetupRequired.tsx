@@ -1,22 +1,26 @@
 type SetupRequiredProps = {
   title: string;
   items: string[];
+  hint?: string;
 };
 
-export function SetupRequired({ title, items }: SetupRequiredProps) {
+export function SetupRequired({ title, items, hint }: SetupRequiredProps) {
   return (
-    <div className="mx-auto max-w-lg rounded-2xl border border-amber-500/30 bg-amber-500/10 p-8 text-center">
-      <h2 className="font-bricolage text-xl font-bold text-white">{title}</h2>
-      <p className="mt-2 text-sm text-zinc-400">
-        Add these to <code className="text-cyan-300">.env.local</code> and restart{" "}
-        <code className="text-cyan-300">npm run dev</code>. See{" "}
-        <code className="text-cyan-300">docs/ARC_KEYS.md</code>.
+    <div className="arc-card mx-auto max-w-lg border-[var(--arc-accent)]/30 bg-[var(--arc-accent)]/5 p-8 text-center">
+      <h2 className="arc-heading text-xl">{title}</h2>
+      <p className="mt-2 text-sm text-[var(--arc-muted)]">
+        Add these to <code className="text-[var(--arc-accent)]">.env.local</code>{" "}
+        (and Vercel env for production), then restart{" "}
+        <code className="text-[var(--arc-accent)]">npm run dev</code> or redeploy.
       </p>
-      <ul className="mt-4 space-y-1 text-left text-sm text-zinc-300">
+      <ul className="arc-instructor-list mt-4 text-left">
         {items.map((item) => (
-          <li key={item}>• {item}</li>
+          <li key={item}>{item}</li>
         ))}
       </ul>
+      {hint && (
+        <p className="mt-4 text-xs text-[var(--arc-muted)]">{hint}</p>
+      )}
     </div>
   );
 }
