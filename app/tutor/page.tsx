@@ -1,19 +1,29 @@
-import { TutorSection } from "@/components/platform/sections/TutorSection";
+"use client";
+
+import { AiTutorPanel } from "@/components/tutor/AiTutorPanel";
+import { TutorReasonsSection } from "@/components/tutor/TutorReasonsSection";
 import { TypewriterLabel } from "@/components/TypewriterLabel";
+
+import "@/components/tutor/tutor.css";
 
 export default function TutorPage() {
   return (
-    <div className="max-w-3xl">
+    <div className="arc-tutor-page">
       <TypewriterLabel
         text="§ Instructor — Your connected AI tutor · Edition MMXXVI"
         className="arc-section-marker block"
       />
-      <h1 className="arc-section-title mt-4 text-3xl">AI Tutor</h1>
-      <p className="arc-body mt-3 mb-8 text-sm">
-        Ask anything about your courses, lessons, and notes — full-height chat,
-        not a corner widget.
+      <h1 className="arc-section-title mt-3 text-2xl md:text-3xl">
+        AI Tutor
+      </h1>
+      <p className="arc-body mt-2 mb-6 text-sm text-[var(--arc-muted)]">
+        A focused study session — not a chatbot in the corner. Ask, attach files
+        or photos, and get structured teaching every time.
       </p>
-      <TutorSection />
+
+      <AiTutorPanel />
+
+      <TutorReasonsSection showHeader />
     </div>
   );
 }

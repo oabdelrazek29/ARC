@@ -54,7 +54,14 @@ export function DashboardShell({ children }: Props) {
           </span>
         </div>
       </aside>
-      <div className="arc-dashboard-main">{children}</div>
+      <div
+        className={cn(
+          "arc-dashboard-main",
+          pathname.startsWith("/tutor") && "arc-dashboard-main--wide"
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 }

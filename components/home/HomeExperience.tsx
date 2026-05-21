@@ -1,76 +1,15 @@
 "use client";
 
-import type { ComponentType } from "react";
 import { motion } from "framer-motion";
 
 import { TypewriterLabel } from "@/components/TypewriterLabel";
 import { ArcButton } from "@/components/arc-ui/ArcButton";
 import { HeroDropCap } from "@/components/home/HeroDropCap";
-import {
-  FigureFive,
-  FigureFour,
-  FigureOne,
-  FigureThree,
-  FigureTwo,
-} from "@/components/home/figures/ArcFigures";
-import {
-  fadeIn,
-  fadeUp,
-  scaleUp,
-  staggerChild,
-  staggerContainer,
-  viewportOnce,
-} from "@/lib/motion";
+import { FigureOne } from "@/components/home/figures/ArcFigures";
+import { TutorReasonsSection } from "@/components/tutor/TutorReasonsSection";
+import { fadeIn, fadeUp, scaleUp, viewportOnce } from "@/lib/motion";
 
 import "./home.css";
-
-type FeatureItem = {
-  num: string;
-  title: string;
-  body: string;
-  tag?: string;
-  Figure: ComponentType;
-  flip: boolean;
-};
-
-const FEATURES: FeatureItem[] = [
-  {
-    num: "I.//",
-    title: "AI Instructor",
-    body: "An intelligent tutor that explains concepts, generates study plans, creates quizzes, and adapts to your learning style.",
-    Figure: FigureOne,
-    flip: false,
-  },
-  {
-    num: "II.//",
-    title: "Structured Courses",
-    body: "Interactive coursework with lessons, projects, quizzes, and guided progression through every subject.",
-    Figure: FigureTwo,
-    flip: true,
-  },
-  {
-    num: "III.//",
-    title: "Smart Notes",
-    body: "Write, organize, and connect ideas with AI-powered summaries, flashcards, concept linking, and searchable notes.",
-    Figure: FigureThree,
-    flip: false,
-  },
-  {
-    num: "IV.//",
-    title: "Lecture Intelligence",
-    tag: "Student favorite",
-    body: "Upload lectures, PDFs, and videos to automatically generate summaries, quizzes, transcripts, and study guides.",
-    Figure: FigureFour,
-    flip: true,
-  },
-  {
-    num: "V.//",
-    title: "Deep Focus Workspace",
-    body: "A calm reading environment designed for long sessions without distractions.",
-    Figure: FigureFive,
-    flip: false,
-  },
-];
 
 const STEPS = [
   {
@@ -104,29 +43,6 @@ const TESTIMONIALS = [
     meta: "Computer Science, University of Washington · Seattle, WA",
   },
 ] as const;
-
-function FeatureCopy({
-  num,
-  title,
-  body,
-  tag,
-}: {
-  num: string;
-  title: string;
-  body: string;
-  tag?: string;
-}) {
-  return (
-    <div className="feature-text">
-      <p className="feature-text__num">{num}</p>
-      <h3 className="feature-text__title">
-        {title}
-        {tag ? <span className="tag">{tag}</span> : null}
-      </h3>
-      <p className="feature-text__body">{body}</p>
-    </div>
-  );
-}
 
 export function HomeExperience() {
   return (
@@ -212,63 +128,7 @@ export function HomeExperience() {
       </section>
 
       <section className="clarity-container clarity-section">
-        <motion.div
-          className="arc-features-intro clarity-editorial-grid"
-          initial="initial"
-          whileInView="animate"
-          viewport={viewportOnce}
-          variants={staggerContainer}
-        >
-          <motion.div variants={staggerChild}>
-            <TypewriterLabel
-              text="§ II — The faculties          pp. 4 – 7"
-              className="arc-section-marker block"
-            />
-          </motion.div>
-          <motion.div variants={staggerChild}>
-            <h2 className="arc-section-title">
-              Five reasons students
-              <br />
-              learn with ARC.
-            </h2>
-          </motion.div>
-        </motion.div>
-
-        {FEATURES.map((f) => {
-          const Fig = f.Figure;
-          return (
-            <motion.div
-              key={f.num}
-              className={f.flip ? "feature-row feature-row--flipped" : "feature-row"}
-              initial={fadeUp.initial}
-              whileInView={fadeUp.animate}
-              viewport={viewportOnce}
-              transition={fadeUp.transition}
-            >
-              {f.flip ? (
-                <>
-                  <Fig />
-                  <FeatureCopy
-                    num={f.num}
-                    title={f.title}
-                    body={f.body}
-                    tag={f.tag}
-                  />
-                </>
-              ) : (
-                <>
-                  <FeatureCopy
-                    num={f.num}
-                    title={f.title}
-                    body={f.body}
-                    tag={f.tag}
-                  />
-                  <Fig />
-                </>
-              )}
-            </motion.div>
-          );
-        })}
+        <TutorReasonsSection />
       </section>
 
       <section className="clarity-container clarity-section border-t border-[var(--arc-border)]">
