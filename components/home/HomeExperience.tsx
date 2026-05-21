@@ -4,14 +4,16 @@ import dynamic from "next/dynamic";
 
 import { ArcButton } from "@/components/arc-ui/ArcButton";
 import { SystemVisualPreview } from "@/components/home/SystemVisualPreview";
-import { HomeAdvisorSection } from "@/components/layout/HomeAdvisorSection";
+import { WorkspaceLayout } from "@/components/layout/WorkspaceLayout";
 import { ArcWatermark } from "@/components/layout/ArcWatermark";
 
 import "./home.css";
 
-const HomeAdvisorPanel = dynamic(
+const InstructorMasterPanel = dynamic(
   () =>
-    import("@/components/home/HomeAdvisorPanel").then((m) => m.HomeAdvisorPanel),
+    import("@/components/instructor/InstructorMasterPanel").then(
+      (m) => m.InstructorMasterPanel
+    ),
   { ssr: false }
 );
 
@@ -38,7 +40,10 @@ export function HomeExperience() {
           Start with something simple. ARC handles the structure.
         </p>
         <div className="arc-fade-up arc-fade-up-delay-3 mt-12 flex flex-wrap gap-3">
-          <ArcButton href="/cognitive">Enter ARC →</ArcButton>
+          <ArcButton href="/learn">Enter Learn OS →</ArcButton>
+          <ArcButton href="/cognitive" variant="ghost">
+            Cognitive
+          </ArcButton>
           <ArcButton href="#how-it-works" variant="ghost">
             See how it works
           </ArcButton>
@@ -47,31 +52,37 @@ export function HomeExperience() {
 
       <hr className="arc-divider" />
 
-      <HomeAdvisorSection advisor={<HomeAdvisorPanel />}>
-        <section id="ai-advisor-mode" className="arc-section-wide py-20">
-          <p className="arc-section-marker">§ AI Adviser Mode</p>
-          <h2 className="arc-heading text-3xl md:text-4xl">AI adviser</h2>
+      <WorkspaceLayout
+        mainLabel="Learning command center"
+        instructor={<InstructorMasterPanel />}
+      >
+        <section id="instructor-master" className="arc-section-wide py-20">
+          <p className="arc-section-marker">§ Instructor Master</p>
+          <h2 className="arc-heading text-3xl md:text-4xl">
+            Your AI university, beside your work
+          </h2>
           <div className="arc-advisor-explainer arc-prose-block mt-8">
             <p className="arc-lead text-base leading-relaxed">
-              ARC includes an optional side view assistant that can be opened at
-              any time.
+              The Instructor Master is not a chatbot. It is your strategist,
+              tutor, and curriculum architect — for any subject you choose.
             </p>
             <p className="arc-lead mt-4 text-base leading-relaxed">
-              When enabled, the interface splits into two parts. Left side,
-              your learning space. Right side, your AI adviser.
+              Use <strong>Full Focus</strong> for deep work, <strong>Smart Split</strong> for
+              a 50/50 command center, or <strong>Teaching Mode</strong> for full-screen
+              guided lessons.
             </p>
             <p className="arc-mono mt-6 text-[10px] text-[var(--arc-tertiary)]">
-              The adviser helps by
+              The instructor actively
             </p>
             <ul>
-              <li>explaining concepts in context</li>
-              <li>guiding what to do next</li>
-              <li>answering questions as you learn</li>
-              <li>adjusting based on your progress</li>
+              <li>generates lessons, quizzes, projects, and roadmaps</li>
+              <li>tracks weaknesses and adapts explanations</li>
+              <li>connects concepts through your knowledge graph</li>
+              <li>structures real coursework with modules and checkpoints</li>
             </ul>
             <p className="arc-lead mt-6 text-sm">
-              It does not interrupt your flow unless you open it. Use the
-              control below to open or close the adviser. Default is off.
+              Switch modes in the bar above. Start in Focus; open Split when you
+              want an AI professor teaching beside you.
             </p>
           </div>
         </section>
@@ -166,7 +177,10 @@ export function HomeExperience() {
             avoiding, ARC is here. Just start. We will handle the rest.
           </p>
           <div className="mt-12 flex flex-wrap gap-3">
-            <ArcButton href="/cognitive">Enter ARC →</ArcButton>
+            <ArcButton href="/learn">Enter Learn OS →</ArcButton>
+          <ArcButton href="/cognitive" variant="ghost">
+            Cognitive
+          </ArcButton>
             <a href="mailto:hello@arc.local" className="arc-btn arc-btn-ghost">
               Email the team →
             </a>
@@ -177,7 +191,7 @@ export function HomeExperience() {
           <p className="arc-section-marker">§ Pricing</p>
           <p className="arc-lead text-sm">Coming soon.</p>
         </section>
-      </HomeAdvisorSection>
+      </WorkspaceLayout>
 
       <ArcWatermark />
     </div>

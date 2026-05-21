@@ -10,7 +10,14 @@ import type {
 const VAGUE_PATTERNS =
   /\b(ai|machine learning|coding|programming|tech|science|math|learn)\b/i;
 
+function hasClarificationAnswers(context: GoalContext): boolean {
+  const a = context.clarificationAnswers;
+  return Boolean(a && Object.keys(a).length >= 2);
+}
+
 function needsMoreContext(input: string, context: GoalContext): boolean {
+  if (hasClarificationAnswers(context)) return false;
+
   const words = input.trim().split(/\s+/).length;
   const isVague = words < 6 || VAGUE_PATTERNS.test(input);
   if (!isVague) return false;

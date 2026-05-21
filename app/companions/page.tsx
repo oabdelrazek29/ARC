@@ -31,14 +31,33 @@ const CompanionsLibrary = async ({ searchParams }: SearchParams) => {
     companions = await getAllCompanions({ subject, topic });
   } catch (e) {
     console.error(e);
+    const message = e instanceof Error ? e.message : "";
+    const missingTables =
+      message.includes("Could not find the table") ||
+      message.includes("relation") ||
+      message.includes("does not exist");
     return (
       <div className="arc-lms-page py-12">
         <SetupRequired
-          title="Could not load tutors"
-          items={[
-            "Verify Supabase tables exist (companions, bookmarks, session_history)",
-            "Sign in with Clerk if RLS requires auth",
-          ]}
+          title={
+            missingTables
+              ? "Create Supabase tables (one-time setup)"
+              : "Could not load tutors"
+          }
+          items={
+            missingTables
+              ? [
+                  "Open supabase.com → your project → SQL Editor → New query",
+                  "In Cursor: open arc/supabase/schema.sql → copy ALL → paste in SQL Editor",
+                  "Click Run — you should see Success",
+                  "Restart: Ctrl+C in terminal, then npm run dev",
+                ]
+              : [
+                  "Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local",
+                  "Run supabase/schema.sql in Supabase SQL Editor",
+                  "Sign in with Clerk if tutors still fail after tables exist",
+                ]
+          }
         />
       </div>
     );
@@ -56,7 +75,7 @@ const CompanionsLibrary = async ({ searchParams }: SearchParams) => {
       <section className="companions-grid">
         {companions.length === 0 ? (
           <p className="text-[var(--arc-muted)]">
-            No tutors found. Create one or adjust filters.
+            No tutors match your filters. Clear search or try another subject.
           </p>
         ) : (
           companions.map((companion) => (

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { BrandLink } from "@/components/brand/BrandLink";
+import { ClerkAuthSection } from "@/components/layout/ClerkAuthSection";
 import { SiteMenu } from "@/components/layout/SiteMenu";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { desktopPrimaryLinks } from "@/lib/site-nav";
@@ -39,12 +40,7 @@ export function Navbar() {
 
         <div className="arc-navbar__actions">
           <ThemeToggle className="hidden sm:inline-flex" />
-          <Link
-            href="/sign-in"
-            className="arc-nav-link hidden text-sm lg:inline"
-          >
-            Login
-          </Link>
+          <ClerkAuthSection className="hidden lg:flex" />
           <Link
             href="/settings"
             className="arc-nav-link hidden text-sm lg:inline"

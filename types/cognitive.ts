@@ -158,4 +158,5 @@ export interface AdvisorResponse {
   reply: string;
   patch: GraphPatch;
   weakNodesAddressed: string[];
+  teaching?: import("@/lib/ai/teaching-format").TeachingPayload;
 }

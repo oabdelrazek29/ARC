@@ -1,27 +1,72 @@
 "use client";
 
-import { SignInButton, useAuth, UserButton } from "@clerk/nextjs";
+import Link from "next/link";
+import {
+  Show,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
 
 import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-export function ClerkAuthSection() {
-  const { isSignedIn, isLoaded } = useAuth();
+const hasClerk = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
-  if (!isLoaded) {
+type ClerkAuthSectionProps = {
+  className?: string;
+  /** Use modal flows instead of dedicated /sign-in and /sign-up pages */
+  mode?: "modal" | "redirect";
+};
+
+export function ClerkAuthSection({
+  className,
+  mode = "redirect",
+}: ClerkAuthSectionProps) {
+  if (!hasClerk) {
     return (
-      <span className="h-8 w-8 animate-pulse rounded-full bg-zinc-800" />
+      <div className={cn("flex items-center gap-2", className)}>
+        <Link
+          href="/sign-in"
+          className={buttonVariants({ variant: "ghost", size: "sm" })}
+        >
+          Sign in
+        </Link>
+        <Link
+          href="/sign-up"
+          className={buttonVariants({ variant: "default", size: "sm" })}
+        >
+          Sign up
+        </Link>
+      </div>
     );
   }
-
-  if (isSignedIn) {
-    return <UserButton />;
-  }
+  const signInMode = mode === "modal" ? { mode: "modal" as const } : {};
+  const signUpMode = mode === "modal" ? { mode: "modal" as const } : {};
 
   return (
-    <SignInButton mode="modal">
-      <button type="button" className={buttonVariants({ variant: "ghost", size: "sm" })}>
-        Sign in
-      </button>
-    </SignInButton>
+    <div className={cn("flex items-center gap-2", className)}>
+      <Show when="signed-out">
+        <SignInButton {...signInMode}>
+          <button
+            type="button"
+            className={buttonVariants({ variant: "ghost", size: "sm" })}
+          >
+            Sign in
+          </button>
+        </SignInButton>
+        <SignUpButton {...signUpMode}>
+          <button
+            type="button"
+            className={buttonVariants({ variant: "default", size: "sm" })}
+          >
+            Sign up
+          </button>
+        </SignUpButton>
+      </Show>
+      <Show when="signed-in">
+        <UserButton />
+      </Show>
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 'use server';
 
 import {auth} from "@clerk/nextjs/server";
+import { getDemoCompanions } from "@/lib/demo-companions";
 import {createSupabaseClient} from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 
@@ -36,9 +37,18 @@ export const getAllCompanions = async ({ limit = 10, page = 1, subject, topic }:
 
     const { data: companions, error } = await query;
 
-    if(error) throw new Error(error.message);
+    if (error) throw new Error(error.message);
 
-    return companions;
+    if (companions && companions.length > 0) {
+      return companions;
+    }
+
+    return getDemoCompanions({
+      limit,
+      page,
+      subject: subject ? String(subject) : undefined,
+      topic: topic ? String(topic) : undefined,
+    });
 }
 
 export const getCompanion = async (id: string) => {

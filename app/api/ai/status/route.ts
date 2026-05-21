@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 
-import { hasOpenAI } from "@/lib/ai/openai-client";
+import { getIntegrationStatus } from "@/lib/integrations/env-status";
 
 export async function GET() {
-  return NextResponse.json({ configured: hasOpenAI() });
+  const integrations = getIntegrationStatus();
+  return NextResponse.json({
+    configured: integrations.openai,
+    integrations,
+  });
 }

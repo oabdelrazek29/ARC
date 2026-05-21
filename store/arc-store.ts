@@ -4,6 +4,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 import { XP_PER_LEVEL } from "@/constants/arc";
+import { usePlatformStore } from "@/store/platform-store";
 import type { Goal, SkillTree, UserProgress } from "@/types/arc";
 
 function levelFromXp(xp: number) {
@@ -19,7 +20,13 @@ interface ArcState {
   updateGoal: (id: string, patch: Partial<Goal>) => void;
   setTree: (tree: SkillTree) => void;
   setActiveGoal: (id: string | null) => void;
-  completeNode: (nodeId: string, xp: number) => void;
+  completeNode: (
+    nodeId: string,
+    xp: number,
+    nodeTitle?: string,
+    treeId?: string,
+    goalTitle?: string
+  ) => void;
   unlockDependentNodes: (treeId: string, completedId: string) => void;
 }
 
@@ -57,9 +64,11 @@ export const useArcStore = create<ArcState>()(
 
       setActiveGoal: (id) => set({ activeGoalId: id }),
 
-      completeNode: (nodeId, xp) =>
+      completeNode: (nodeId, xp, nodeTitle, treeId, goalTitle) => {
+        const state = get();
+        if (state.progress.completedNodeIds.includes(nodeId)) return;
+
         set((s) => {
-          if (s.progress.completedNodeIds.includes(nodeId)) return s;
           const totalXp = s.progress.totalXp + xp;
           const achievements = [...s.progress.achievements];
           if (!achievements.includes("first-node")) {
@@ -74,7 +83,27 @@ export const useArcStore = create<ArcState>()(
               achievements,
             },
           };
-        }),
+        });
+
+        const meta: Record<string, string> = {};
+        if (goalTitle) meta.goal = goalTitle;
+        if (treeId) meta.treeId = treeId;
+
+        usePlatformStore.getState().recordEvent(
+          "lesson_complete",
+          nodeTitle ?? nodeId,
+          `Lesson completed (+${xp} XP) — synced to dashboard & instructor`,
+          "courses",
+          Object.keys(meta).length ? meta : undefined
+        );
+        if (treeId) {
+          usePlatformStore.getState().setContext({
+            section: "courses",
+            courseId: treeId,
+            lessonId: nodeId,
+          });
+        }
+      },
 
       unlockDependentNodes: (treeId, completedId) => {
         set((s) => {

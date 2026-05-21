@@ -6,11 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:seed": "node scripts/seed-tutors.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
     "@clerk/nextjs": "^7.3.7",
+    "@clerk/ui": "^1.12.1",
     "@hookform/resolvers": "^5.2.2",
     "@jsmastery/utils": "^1.0.2",
     "@radix-ui/react-accordion": "^1.2.12",

@@ -48,6 +48,8 @@ export interface GoalContext {
   objective?: string;
   hoursPerWeek?: number;
   preference?: "projects" | "theory" | "balanced";
+  /** Answers to AI clarification questions (any subject) */
+  clarificationAnswers?: Record<string, string>;
 }
 
 export interface Goal {

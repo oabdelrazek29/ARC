@@ -19,6 +19,11 @@ const isPublicRoute = createRouteMatcher([
   "/sign-up(.*)",
   // Explore (browse and demo; some actions redirect to sign-in in-page)
   "/cognitive(.*)",
+  "/learn(.*)",
+  "/courses(.*)",
+  "/goals(.*)",
+  "/trees(.*)",
+  "/dashboard",
   "/companions(.*)",
   // Settings UI (profile/account sections prompt sign-in when needed)
   "/settings(.*)",

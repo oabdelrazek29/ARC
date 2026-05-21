@@ -25,10 +25,10 @@ export async function POST(req: Request) {
     );
 
     return NextResponse.json(result);
-  } catch {
-    return NextResponse.json(
-      { error: "Failed to analyze goal" },
-      { status: 500 }
-    );
+  } catch (err) {
+    console.error("[api/ai/goal]", err);
+    const message =
+      err instanceof Error ? err.message : "Failed to analyze goal";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

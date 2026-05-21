@@ -9,68 +9,37 @@ import {
   useState,
 } from "react";
 
+import { StudyFlashcards } from "@/components/ai/StudyFlashcards";
+import { TeachingMarkdown } from "@/components/ai/TeachingMarkdown";
+import type { TeachingPayload } from "@/lib/ai/teaching-format";
 import { cn } from "@/lib/utils";
 
 type Message = {
   id: string;
   role: "user" | "assistant";
   text: string;
+  teaching?: TeachingPayload;
 };
 
 const WELCOME: Message = {
   id: "welcome",
   role: "assistant",
-  text: "Ask about a topic, a lesson plan, or where to start. I read your goal and suggest the next clear step.",
+  text: `I'm your ARC Professor — not a generic chatbot.
+
+Ask for a **lesson plan**, **resources**, **flashcards** (Quizlet-style), or say what you want to learn. I'll teach step-by-step and point you to Cognitive OS and voice tutors when they help.`,
 };
 
 const SUGGESTIONS = [
-  "Where should I start?",
-  "Break down machine learning",
-  "Plan a short study session",
+  "Teach me the basics of calculus",
+  "Lesson plan for Python in 2 weeks",
+  "Quizlet-style flashcards for biology",
+  "Resources to learn data structures",
 ] as const;
-
-const DEMO_REPLIES: Record<string, string> = {
-  default:
-    "Start with one concept you can explain in your own words. ARC will turn that into lessons, practice, and a path that shifts when you get stuck.",
-  "where should i start":
-    "Name the outcome you want — not the whole field. ARC builds a first lesson plan from that, then adds video and practice only where you need them.",
-  "break down machine learning":
-    "Think in layers: what data means, how models learn, how you judge if they work. ARC sequences those as lessons before any heavy math.",
-  "plan a short study session":
-    "Twenty minutes: one lesson, one practice check, one sentence written in your own words. ARC keeps the plan short so it actually gets done.",
-};
-
-function pickReply(input: string): string {
-  const key = input.trim().toLowerCase();
-  for (const [k, v] of Object.entries(DEMO_REPLIES)) {
-    if (k !== "default" && key.includes(k)) return v;
-  }
-  return DEMO_REPLIES.default;
-}
-
-function streamText(
-  full: string,
-  onChunk: (partial: string) => void,
-  onDone: () => void
-) {
-  let i = 0;
-  const step = () => {
-    if (i >= full.length) {
-      onDone();
-      return;
-    }
-    i += Math.min(3, full.length - i);
-    onChunk(full.slice(0, i));
-    window.setTimeout(step, 16);
-  };
-  step();
-}
 
 function HomeAdvisorPanelInner() {
   const [messages, setMessages] = useState<Message[]>([WELCOME]);
   const [input, setInput] = useState("");
-  const [typing, setTyping] = useState(false);
-  const [streamingId, setStreamingId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
 
   const scrollToEnd = useCallback(() => {
@@ -80,12 +49,12 @@ function HomeAdvisorPanelInner() {
 
   useEffect(() => {
     scrollToEnd();
-  }, [messages, typing, scrollToEnd]);
+  }, [messages, loading, scrollToEnd]);
 
   const send = useCallback(
     async (text: string) => {
       const trimmed = text.trim();
-      if (!trimmed || typing) return;
+      if (!trimmed || loading) return;
 
       const userMsg: Message = {
         id: `u-${Date.now()}`,
@@ -94,43 +63,47 @@ function HomeAdvisorPanelInner() {
       };
       setMessages((m) => [...m, userMsg]);
       setInput("");
-      setTyping(true);
+      setLoading(true);
 
-      let reply = pickReply(trimmed);
+      let reply =
+        "Add **OPENAI_API_KEY** in `.env.local` for full lessons. Meanwhile: pick one topic, ask for a lesson plan, then open **Cognitive** to map your mental model and **Tutors** for voice practice.";
+      let teaching: TeachingPayload | undefined;
 
       try {
+        const topic =
+          typeof window !== "undefined"
+            ? localStorage.getItem("arc-learning-topic") ?? undefined
+            : undefined;
         const res = await fetch("/api/ai/coach", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: trimmed }),
+          body: JSON.stringify({ message: trimmed, topic }),
         });
-        const data = (await res.json()) as { reply?: string };
+        const data = (await res.json()) as {
+          reply?: string;
+          payload?: TeachingPayload;
+        };
         if (data.reply?.trim()) reply = data.reply.trim();
+        if (data.payload) teaching = data.payload;
+        if (typeof window !== "undefined" && trimmed.length > 3) {
+          localStorage.setItem("arc-learning-topic", trimmed.slice(0, 120));
+        }
       } catch {
-        /* demo reply */
+        /* fallback reply above */
       }
 
-      const assistantId = `a-${Date.now()}`;
-      setTyping(false);
-      setStreamingId(assistantId);
       setMessages((m) => [
         ...m,
-        { id: assistantId, role: "assistant", text: "" },
-      ]);
-
-      streamText(
-        reply,
-        (partial) => {
-          setMessages((m) =>
-            m.map((msg) =>
-              msg.id === assistantId ? { ...msg, text: partial } : msg
-            )
-          );
+        {
+          id: `a-${Date.now()}`,
+          role: "assistant",
+          text: reply,
+          teaching,
         },
-        () => setStreamingId(null)
-      );
+      ]);
+      setLoading(false);
     },
-    [typing]
+    [loading]
   );
 
   const onSubmit = useCallback(
@@ -145,7 +118,10 @@ function HomeAdvisorPanelInner() {
 
   return (
     <div className="arc-advisor-chat flex h-full min-h-0 flex-col">
-      <div ref={listRef} className="arc-advisor-chat__messages flex-1 overflow-y-auto">
+      <div
+        ref={listRef}
+        className="arc-advisor-chat__messages flex-1 overflow-y-auto"
+      >
         {messages.map((msg) => (
           <div
             key={msg.id}
@@ -153,24 +129,39 @@ function HomeAdvisorPanelInner() {
               "arc-advisor-bubble",
               msg.role === "user"
                 ? "arc-advisor-bubble--user"
-                : "arc-advisor-bubble--assistant"
+                : "arc-advisor-bubble--assistant arc-advisor-bubble--teaching"
             )}
           >
-            <p className="text-sm leading-relaxed">{msg.text}</p>
+            {msg.role === "assistant" ? (
+              <>
+                <TeachingMarkdown text={msg.text} />
+                {msg.teaching?.flashcards && msg.teaching.flashcards.length > 0 && (
+                  <StudyFlashcards
+                    cards={msg.teaching.flashcards}
+                    className="mt-4"
+                  />
+                )}
+              </>
+            ) : (
+              <p className="arc-advisor-bubble__text">{msg.text}</p>
+            )}
           </div>
         ))}
-        {typing && (
+        {loading && (
           <div className="arc-advisor-bubble arc-advisor-bubble--assistant">
-            <span className="arc-advisor-typing" aria-label="Typing">
+            <span className="arc-advisor-typing" aria-label="Building lesson">
               <span />
               <span />
               <span />
             </span>
+            <p className="mt-2 text-xs text-[var(--arc-muted)]">
+              Building lesson plan, resources, and practice…
+            </p>
           </div>
         )}
       </div>
 
-      {streamingId === null && !typing && (
+      {!loading && (
         <div className="arc-advisor-chips">
           {chips.map((s) => (
             <button
@@ -189,16 +180,16 @@ function HomeAdvisorPanelInner() {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask ARC…"
+          placeholder="What should ARC teach you?"
           className="arc-advisor-input"
-          disabled={typing || streamingId !== null}
+          disabled={loading}
         />
         <button
           type="submit"
-          disabled={!input.trim() || typing || streamingId !== null}
+          disabled={!input.trim() || loading}
           className="arc-btn arc-btn-primary shrink-0 text-xs"
         >
-          Send
+          Teach me
         </button>
       </form>
     </div>

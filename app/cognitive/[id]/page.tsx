@@ -5,7 +5,13 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCallback, useState } from "react";
 
-import { CognitiveAdvisor } from "@/components/cognitive/CognitiveAdvisor";
+const InstructorMasterPanel = dynamic(
+  () =>
+    import("@/components/instructor/InstructorMasterPanel").then(
+      (m) => m.InstructorMasterPanel
+    ),
+  { ssr: false }
+);
 import { GraphHeatmapLegend } from "@/components/cognitive/GraphHeatmapLegend";
 import { LearningModePanel } from "@/components/cognitive/LearningModePanel";
 import { ThinkingSimulatorPanel } from "@/components/cognitive/ThinkingSimulatorPanel";
@@ -107,9 +113,20 @@ export default function CognitiveGraphPage() {
           />
         </aside>
 
-        <div className="w-full shrink-0 xl:w-96">
-          <CognitiveAdvisor graph={graph} />
-        </div>
+        <aside className="arc-card flex w-full min-h-[520px] shrink-0 flex-col overflow-hidden xl:w-[min(50%,28rem)]">
+          <p className="arc-instructor-master__header border-b border-[var(--arc-border)]">
+            Instructor Master
+          </p>
+          <div className="arc-instructor-master__body min-h-0 flex-1">
+            <InstructorMasterPanel
+              context={{
+                goal: graph.title,
+                topic: graph.goalInput,
+                graphId: graph.id,
+              }}
+            />
+          </div>
+        </aside>
       </div>
 
       <p className="text-center text-xs text-[var(--arc-muted)]">

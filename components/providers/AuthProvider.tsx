@@ -1,12 +1,21 @@
 "use client";
 
 import { ClerkProvider } from "@clerk/nextjs";
+import { shadcn } from "@clerk/ui/themes";
 
 const arcClerkAppearance = {
+  theme: shadcn,
   variables: {
-    colorPrimary: "#22d3ee",
-    colorBackground: "#09090b",
-    colorText: "#fafafa",
+    colorPrimary: "#c9b99a",
+    colorBackground: "#111111",
+    colorText: "#f0ede6",
+    colorInputBackground: "#0a0a0a",
+    borderRadius: "2px",
+  },
+  elements: {
+    card: "shadow-none",
+    formButtonPrimary:
+      "bg-[var(--arc-btn-primary-bg)] text-[var(--arc-btn-primary-fg)] border-0 rounded-sm",
   },
 };
 

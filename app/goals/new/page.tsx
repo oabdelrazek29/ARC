@@ -1,10 +1,6 @@
-import { GoalWizard } from "@/components/arc/GoalWizard";
-import { PageShell } from "@/components/layout/PageShell";
+import { redirect } from "next/navigation";
 
-export default function NewGoalPage() {
-  return (
-    <PageShell>
-      <GoalWizard />
-    </PageShell>
-  );
+/** Course creation lives under Learn OS */
+export default function NewGoalRedirect() {
+  redirect("/learn/create");
 }

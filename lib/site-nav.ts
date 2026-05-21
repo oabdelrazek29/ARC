@@ -38,9 +38,13 @@ export const siteMenuSections: SiteNavSection[] = [
   {
     title: "Your learning",
     links: [
-      { href: "/dashboard", label: "Dashboard", description: "Progress and goals" },
+      {
+        href: "/learn",
+        label: "Learn OS",
+        description: "Mission control & all learning sections",
+      },
       { href: "/my-journey", label: "My journey", description: "Timeline and milestones" },
-      { href: "/goals/new", label: "New goal", description: "Start a learning path" },
+      { href: "/learn/create", label: "Create course", description: "AI-generated learning path" },
     ],
   },
   {
@@ -57,6 +61,7 @@ export const siteMenuSections: SiteNavSection[] = [
 
 export const desktopPrimaryLinks: SiteNavLink[] = [
   { href: "/", label: "Home" },
+  { href: "/learn", label: "Learn OS" },
   { href: "/about", label: "About" },
   { href: "/cognitive", label: "Cognitive" },
   { href: "/companions", label: "Tutors" },

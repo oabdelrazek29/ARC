@@ -85,14 +85,21 @@ export async function adviseWithCognitiveAI(
   if (cached) return cached;
 
   if (!hasOpenAI()) {
-    const reply = mockAdvisorReply(message, weakLabels, mode);
+    const { professorTeach } = await import("@/lib/ai/professor-teach");
+    const taught = await professorTeach(message, {
+      mode: "cognitive",
+      advisorMode: mode,
+      topic: graph.title,
+      weakNodes: weakLabels,
+    });
     const drift = weak[0]
       ? driftPatchFromOutcome(graph.id, weak[0].id, "neutral", graph.nodes)
       : emptyPatch(graph.id);
     const result: AdvisorResponse = {
-      reply,
+      reply: taught.markdown,
       patch: drift,
       weakNodesAddressed: weakIds,
+      teaching: taught.payload,
     };
     setCached(key, result, ADVISOR_CACHE_TTL_MS);
     return result;
@@ -124,48 +131,51 @@ export async function adviseWithCognitiveAI(
   };
 
   try {
+    const { professorTeach } = await import("@/lib/ai/professor-teach");
+    const taught = await professorTeach(message, {
+      mode: "cognitive",
+      advisorMode: mode,
+      topic: graph.title,
+      graphSummary: JSON.stringify(graphSummary),
+      weakNodes: weakLabels,
+    });
+
     const completion = await client.chat.completions.create({
       model: process.env.OPENAI_MODEL ?? "gpt-4o-mini",
       response_format: { type: "json_object" },
-      temperature: 0.65,
-      max_tokens: 700,
+      temperature: 0.4,
+      max_tokens: 400,
       messages: [
         {
           role: "system",
-          content: `You are ARC AI Advisor — a contextual thinking engine, NOT a chatbot.
-Rules:
-1. Read the cognitive graph before responding.
-2. Address weak/unstable nodes first.
-3. Adapt explanation to user's reasoning patterns in the graph.
-4. Prefer fixing misconceptions over direct answers (except Socratic mode).
-5. Return JSON: { "reply": string, "updatedNodes": [{ "id", "confidence_score"?, "state"? }] }
-Modes: ${MODE_INSTRUCTIONS[mode]}
-Reality state: ${REALITY_INSTRUCTIONS[realityMode]}`,
+          content: `You update cognitive graph node confidence after a teaching turn.
+Return JSON only: { "updatedNodes": [{ "id", "confidence_score"?, "state"? }] }
+Rules: bump confidence slightly on nodes the user engaged with; lower on misconceptions if user still confused.
+Mode context: ${MODE_INSTRUCTIONS[mode]} · ${REALITY_INSTRUCTIONS[realityMode]}`,
         },
         {
           role: "user",
           content: JSON.stringify({
             graph: graphSummary,
             message,
-            mode,
-            realityMode,
+            lessonSummary: taught.payload.summary,
           }),
         },
       ],
     });
 
     const text = completion.choices[0]?.message?.content;
-    if (!text) throw new Error("Empty advisor response");
-
-    const parsed = JSON.parse(text) as {
-      reply?: string;
-      updatedNodes?: { id: string; confidence_score?: number; state?: string }[];
-    };
+    const parsed = text
+      ? (JSON.parse(text) as {
+          updatedNodes?: { id: string; confidence_score?: number; state?: string }[];
+        })
+      : {};
 
     const result: AdvisorResponse = {
-      reply: parsed.reply ?? mockAdvisorReply(message, weakLabels, mode),
+      reply: taught.markdown,
       patch: buildPatchFromAI(graph, parsed),
       weakNodesAddressed: weakIds,
+      teaching: taught.payload,
     };
     setCached(key, result, ADVISOR_CACHE_TTL_MS);
     return result;

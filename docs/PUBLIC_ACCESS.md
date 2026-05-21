@@ -25,7 +25,7 @@ These URLs are **public** (no Clerk required to load the page):
 
 Recommended for personal data and LMS features:
 
-- `/dashboard` — your dashboard
+- `/learn` — mission control (dashboard redirects here)
 - `/my-journey` — progress
 - `/trees/[id]` — skill trees with lessons and plans
 - `/goals/new` — goal wizard

@@ -9,9 +9,10 @@ import type {
   SkillTree,
 } from "@/types/arc";
 
-const SYSTEM = `You are ARC, an adaptive learning architect. You design RPG-style skill trees.
+const SYSTEM = `You are ARC, an adaptive learning architect. You design RPG-style skill trees for ANY subject (STEM, humanities, languages, arts, test prep, etc.).
 Rules:
-- If the goal is vague, return needsClarification true with 2-4 targeted questions (id, question, type, options when select).
+- If the goal is vague AND context.clarificationAnswers is empty or missing, return needsClarification true with 2-4 targeted questions. Each question MUST have a unique string "id" (e.g. "aspects", "level", "focus").
+- If context.clarificationAnswers has 2+ entries, NEVER ask more questions — return needsClarification false and build the tree using those answers.
 - When context is enough, return needsClarification false and a skill tree with 8-14 nodes.
 - Nodes must have: id, title, description, xpReward, difficulty (beginner|intermediate|advanced), nodeType (lesson|practice|quiz|project|bossBattle), estimatedTime (minutes), resources (string array), dependencies (node ids), unlocked (only root nodes true), completed false.
 - Include at least one quiz (with quiz array: id, question, options, correctIndex) and one bossBattle (bossBattle.challenge).
@@ -83,7 +84,15 @@ export async function analyzeGoalWithAI(
       tree?: { title?: string; nodes?: Record<string, unknown>[] };
     };
 
-    if (parsed.needsClarification && parsed.questions?.length) {
+    const answered = context.clarificationAnswers
+      ? Object.keys(context.clarificationAnswers).length
+      : 0;
+
+    if (
+      parsed.needsClarification &&
+      parsed.questions?.length &&
+      answered < 2
+    ) {
       return {
         needsClarification: true,
         questions: parsed.questions,
@@ -119,44 +128,24 @@ export async function coachWithAI(
     goal?: string;
     nodeTitle?: string;
     nodeDescription?: string;
+    topic?: string;
+    graphSummary?: string;
+    weakNodes?: string[];
   }
 ): Promise<string> {
-  if (!hasOpenAI()) {
-    return "Add OPENAI_API_KEY in .env.local to enable ARC Coach. I can help explain nodes, suggest study plans, and answer learning questions.";
-  }
-
-  const client = getOpenAIClient();
-  if (!client) return "ARC Coach is unavailable.";
-
+  const { professorTeach } = await import("@/lib/ai/professor-teach");
   try {
-    const completion = await client.chat.completions.create({
-      model: process.env.OPENAI_MODEL ?? "gpt-4o-mini",
-      temperature: 0.7,
-      max_tokens: 500,
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are ARC Coach — concise, encouraging, practical. Help with learning paths, explaining concepts, study tips, and next steps. Keep answers under 120 words unless asked for detail.",
-        },
-        {
-          role: "user",
-          content: [
-            context?.goal && `Goal: ${context.goal}`,
-            context?.nodeTitle && `Current node: ${context.nodeTitle}`,
-            context?.nodeDescription && `Details: ${context.nodeDescription}`,
-            `Question: ${message}`,
-          ]
-            .filter(Boolean)
-            .join("\n"),
-        },
-      ],
+    const result = await professorTeach(message, {
+      goal: context?.goal,
+      topic:
+        context?.topic ??
+        context?.nodeTitle ??
+        context?.goal,
+      graphSummary: context?.graphSummary,
+      weakNodes: context?.weakNodes,
+      mode: "home",
     });
-
-    return (
-      completion.choices[0]?.message?.content?.trim() ??
-      "I couldn't generate a response. Try again."
-    );
+    return result.markdown;
   } catch (err: unknown) {
     const status =
       err && typeof err === "object" && "status" in err
@@ -166,9 +155,9 @@ export async function coachWithAI(
       return "OpenAI quota exceeded. Add billing or credits at platform.openai.com, then restart `npm run dev`.";
     }
     if (status === 401) {
-      return "Invalid OpenAI API key. Update OPENAI_API_KEY in .env.local and restart the dev server.";
+      return "Invalid OpenAI API_KEY in .env.local and restart the dev server.";
     }
     console.error("[ARC Coach]", err);
-    return "ARC Coach hit an error. Check your API key and billing, then try again.";
+    return "ARC Professor hit an error. Check your API key and billing, then try again.";
   }
 }

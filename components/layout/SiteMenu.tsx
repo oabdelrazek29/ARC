@@ -7,6 +7,7 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { ArcLogo } from "@/components/brand/ArcLogo";
+import { ClerkAuthSection } from "@/components/layout/ClerkAuthSection";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { siteMenuSections } from "@/lib/site-nav";
 import { cn } from "@/lib/utils";
@@ -70,6 +71,7 @@ export function SiteMenu() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
+                  <ClerkAuthSection className="flex-wrap justify-end" />
                   <ThemeToggle />
                   <button
                     type="button"

@@ -18,8 +18,8 @@ Based on the [saas-app tutorial](https://github.com/adrianhajdin/saas-app).
 | `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | [clerk.com](https://clerk.com) → your app → API Keys |
 | `CLERK_SECRET_KEY` | Same dashboard |
 | `NEXT_PUBLIC_CLERK_SIGN_IN_URL` | `/sign-in` |
-| `NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL` | `/dashboard` |
-| `NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL` | `/dashboard` |
+| `NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL` | `/learn` |
+| `NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL` | `/learn` |
 
 Clerk **Billing** (for `/subscription` PricingTable): enable Billing in Clerk dashboard and connect Stripe there.
 
@@ -37,6 +37,22 @@ Then run `supabase/schema.sql` in the Supabase SQL editor.
 | Variable | Where to get it |
 |----------|-----------------|
 | `NEXT_PUBLIC_VAPI_WEB_TOKEN` | [vapi.ai](https://vapi.ai) dashboard |
+
+## NextLMS-style optional ([kendevco/NextLMS](https://github.com/kendevco/NextLMS))
+
+ARC already covers courses, chapters, progress, search, and teacher create via **Learn OS**. Add these only if you want paid courses, Mux video hosting, or UploadThing file storage like the tutorial app.
+
+| Variable | Where to get it | Used for |
+|----------|-----------------|----------|
+| `STRIPE_API_KEY` | [stripe.com](https://stripe.com) → Developers → API keys | Course purchases |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Same | Checkout UI |
+| `STRIPE_WEBHOOK_SECRET` | Stripe → Webhooks | Purchase confirmation |
+| `MUX_TOKEN_ID` | [mux.com](https://mux.com) | Video upload/processing |
+| `MUX_TOKEN_SECRET` | Mux dashboard | Video playback |
+| `UPLOADTHING_SECRET` | [uploadthing.com](https://uploadthing.com) | Attachments / thumbnails |
+| `UPLOADTHING_APP_ID` | UploadThing dashboard | File uploads |
+
+Check connection status on **Learn OS** → Mission control (integration panel) or `GET /api/ai/status`.
 
 ## Sentry (optional — error monitoring)
 
