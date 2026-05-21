@@ -1,4 +1,5 @@
-import { ArcMark } from "@/components/brand/ArcMark";
+import Image from "next/image";
+
 import { cn } from "@/lib/utils";
 
 type ArcLogoProps = {
@@ -7,11 +8,22 @@ type ArcLogoProps = {
   priority?: boolean;
 };
 
-/** ARC logo mark for navbar, footer, and menus (theme-aware SVG). */
-export function ArcLogo({ size = 32, className }: ArcLogoProps) {
+/** ARC brand mark — matches /public/images/logo-nav.png */
+export function ArcLogo({ size = 32, className, priority }: ArcLogoProps) {
   return (
-    <span className={cn("arc-brand-logo", className)} style={{ width: size, height: size }}>
-      <ArcMark size={size} showGlow />
+    <span
+      className={cn("arc-brand-logo relative inline-block shrink-0", className)}
+      style={{ width: size, height: size }}
+    >
+      <Image
+        src="/images/logo-nav.png"
+        alt=""
+        width={size}
+        height={size}
+        priority={priority}
+        className="h-full w-full object-contain"
+        aria-hidden
+      />
     </span>
   );
 }

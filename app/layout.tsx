@@ -33,7 +33,7 @@ const siteUrl =
   "https://arc-oabdelrazek29s-projects.vercel.app";
 
 /** Bust aggressive browser favicon cache after logo updates */
-const iconVersion = "arc-mark-v3";
+const iconVersion = "arc-logo-v4";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -45,9 +45,26 @@ export const metadata: Metadata = {
   description:
     "The AI learning system built for deep study — structured courses, intelligent tutoring, and adaptive learning in one calm workspace.",
   icons: {
-    icon: [{ url: `/icon.svg?${iconVersion}`, type: "image/svg+xml" }],
-    apple: [{ url: `/apple-icon.svg?${iconVersion}`, type: "image/svg+xml" }],
-    shortcut: [{ url: `/arc-mark.svg?${iconVersion}`, type: "image/svg+xml" }],
+    icon: [
+      {
+        url: `/images/logo-icon.png?${iconVersion}`,
+        sizes: "32x32",
+        type: "image/png",
+      },
+    ],
+    apple: [
+      {
+        url: `/images/logo-apple.png?${iconVersion}`,
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+    shortcut: [
+      {
+        url: `/images/logo-nav.png?${iconVersion}`,
+        type: "image/png",
+      },
+    ],
   },
   openGraph: {
     siteName: "ARC",
