@@ -29,6 +29,22 @@
   box-shadow: 0 20px 50px rgba(26, 24, 20, 0.08);
 }
 
+.tutor-panel__ai-status {
+  position: relative;
+  z-index: 2;
+  margin: 0 0 0.75rem;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+.tutor-panel__ai-status--on {
+  color: var(--arc-accent);
+}
+
+.tutor-panel__ai-status--off {
+  color: var(--arc-muted);
+}
+
 .tutor-panel__glow {
   position: absolute;
   inset: -40% 20% auto;

@@ -1,5 +1,10 @@
 import { ARC_PROFESSOR_SYSTEM } from "@/lib/ai/professor-prompt";
-import { getOpenAIClient, hasOpenAI } from "@/lib/ai/openai-client";
+import {
+  formatOpenAIError,
+  getOpenAIModel,
+  isOpenAIConfigured,
+} from "@/lib/ai/env";
+import { getOpenAIClient } from "@/lib/ai/openai-client";
 import type { TutorSessionPayload } from "@/types/tutor-session";
 
 export type TutorAttachmentInput = {
@@ -7,6 +12,13 @@ export type TutorAttachmentInput = {
   type: string;
   text?: string;
   dataUrl?: string;
+};
+
+export type TutorSessionResult = {
+  payload: TutorSessionPayload;
+  demo: boolean;
+  configured: boolean;
+  error?: string;
 };
 
 const TUTOR_JSON_SCHEMA = `Return ONLY valid JSON:
@@ -34,18 +46,19 @@ function parsePayload(raw: string): TutorSessionPayload | null {
   }
 }
 
-function demoPayload(message: string): TutorSessionPayload {
+function demoPayload(message: string, reason?: string): TutorSessionPayload {
+  const lead =
+    reason ??
+    "OpenAI is not connected. Add OPENAI_API_KEY to .env.local for local dev, or to Vercel → Project → Settings → Environment Variables for the live site. Restart the dev server after changing env.";
+
   return {
-    explanation:
-      "Add OPENAI_API_KEY to .env.local to unlock live tutoring. Here is how a real session is structured: we explain simply, show an example, then check your understanding.",
-    example:
-      `You asked about "${message.slice(0, 80)}". A tutor would break that into one idea at a time — definition first, then a worked example, then a short check question.`,
+    explanation: lead,
+    example: `You asked about "${message.slice(0, 80)}". Once connected, the tutor explains simply, shows an example, then checks your understanding.`,
     practiceQuestion:
-      "In your own words, what is the single hardest part of this topic for you right now?",
-    hint:
-      "Start with what you already know, then name one specific step where you get stuck.",
+      "After adding the key, ask a short question here to confirm live mode works.",
+    hint: "The variable name must be exactly OPENAI_API_KEY (no typos).",
     followUp:
-      "Tell me your course or exam date and I will suggest a focused 20-minute study block.",
+      "Visit /api/ai/status while the app is running — configured should be true.",
   };
 }
 
@@ -56,13 +69,27 @@ export async function tutorSession(
     attachments?: TutorAttachmentInput[];
     courseContext?: string;
   } = {}
-): Promise<{ payload: TutorSessionPayload; demo: boolean }> {
-  if (!hasOpenAI()) {
-    return { payload: demoPayload(message), demo: true };
+): Promise<TutorSessionResult> {
+  const configured = isOpenAIConfigured();
+
+  if (!configured) {
+    return {
+      payload: demoPayload(message),
+      demo: true,
+      configured: false,
+    };
   }
 
   const client = getOpenAIClient();
-  if (!client) return { payload: demoPayload(message), demo: true };
+  if (!client) {
+    return {
+      payload: demoPayload(message),
+      demo: true,
+      configured: false,
+    };
+  }
+
+  const model = getOpenAIModel();
 
   const attachmentNote =
     opts.attachments?.length ?
@@ -88,7 +115,9 @@ export async function tutorSession(
     content: h.content,
   }));
 
-  const hasImages = opts.attachments?.some((a) => a.dataUrl?.startsWith("data:image"));
+  const hasImages = opts.attachments?.some((a) =>
+    a.dataUrl?.startsWith("data:image")
+  );
 
   try {
     if (hasImages) {
@@ -111,7 +140,7 @@ export async function tutorSession(
       }
 
       const completion = await client.chat.completions.create({
-        model: process.env.OPENAI_MODEL ?? "gpt-4o-mini",
+        model,
         response_format: { type: "json_object" },
         temperature: 0.6,
         max_tokens: 1200,
@@ -130,11 +159,11 @@ export async function tutorSession(
 
       const text = completion.choices[0]?.message?.content;
       const payload = text ? parsePayload(text) : null;
-      if (payload) return { payload, demo: false };
+      if (payload) return { payload, demo: false, configured: true };
     }
 
     const completion = await client.chat.completions.create({
-      model: process.env.OPENAI_MODEL ?? "gpt-4o-mini",
+      model,
       response_format: { type: "json_object" },
       temperature: 0.6,
       max_tokens: 1200,
@@ -152,9 +181,15 @@ export async function tutorSession(
     if (!text) throw new Error("Empty tutor response");
     const payload = parsePayload(text);
     if (!payload) throw new Error("Invalid tutor JSON");
-    return { payload, demo: false };
+    return { payload, demo: false, configured: true };
   } catch (e) {
     console.error("[tutor-session]", e);
-    return { payload: demoPayload(message), demo: true };
+    const error = formatOpenAIError(e);
+    return {
+      payload: demoPayload(message, error),
+      demo: true,
+      configured: true,
+      error,
+    };
   }
 }

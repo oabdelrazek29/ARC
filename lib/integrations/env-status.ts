@@ -1,4 +1,4 @@
-import { hasOpenAI } from "@/lib/ai/openai-client";
+import { isOpenAIConfigured } from "@/lib/ai/env";
 import { isClerkConfigured } from "@/lib/clerk/env";
 
 export type IntegrationStatus = {
@@ -19,7 +19,7 @@ function env(name: string): string | undefined {
 /** Server-side integration checks (NextLMS-style services + ARC core). */
 export function getIntegrationStatus(): IntegrationStatus {
   return {
-    openai: hasOpenAI(),
+    openai: isOpenAIConfigured(),
     clerk: isClerkConfigured(),
     supabase: Boolean(
       env("NEXT_PUBLIC_SUPABASE_URL") && env("NEXT_PUBLIC_SUPABASE_ANON_KEY")

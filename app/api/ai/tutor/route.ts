@@ -35,6 +35,8 @@ export async function POST(req: Request) {
     return NextResponse.json({
       payload: result.payload,
       demo: result.demo,
+      configured: result.configured,
+      error: result.error,
     });
   } catch (err) {
     console.error("[api/ai/tutor]", err);

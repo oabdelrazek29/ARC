@@ -13,6 +13,8 @@ export type TutorChatMessage = {
   payload?: TutorSessionPayload;
   attachments?: { name: string; type: string }[];
   demo?: boolean;
+  /** Server had OPENAI_API_KEY when this reply was generated */
+  configured?: boolean;
 };
 
 export type TutorAttachment = {

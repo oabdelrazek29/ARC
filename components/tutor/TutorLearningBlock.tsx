@@ -10,9 +10,11 @@ import { cn } from "@/lib/utils";
 type Props = {
   payload: TutorSessionPayload;
   demo?: boolean;
+  /** When demo but key is configured — API error, not missing env */
+  configured?: boolean;
 };
 
-export function TutorLearningBlock({ payload, demo }: Props) {
+export function TutorLearningBlock({ payload, demo, configured }: Props) {
   const [hintOpen, setHintOpen] = useState(false);
 
   return (
@@ -24,7 +26,9 @@ export function TutorLearningBlock({ payload, demo }: Props) {
     >
       {demo && (
         <p className="tutor-block__demo-badge arc-mono">
-          Demo mode — add OPENAI_API_KEY for live tutoring
+          {configured
+            ? "Tutor could not reach OpenAI — see explanation below"
+            : "Demo mode — set OPENAI_API_KEY in .env.local or Vercel env"}
         </p>
       )}
 

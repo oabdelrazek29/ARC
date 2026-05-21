@@ -76,6 +76,7 @@ export function AiTutorPanel({ className }: Props) {
   const [pending, setPending] = useState<TutorAttachment[]>([]);
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState(false);
+  const [aiConfigured, setAiConfigured] = useState<boolean | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -91,6 +92,15 @@ export function AiTutorPanel({ className }: Props) {
   useEffect(() => {
     scrollEnd();
   }, [messages, loading, scrollEnd]);
+
+  useEffect(() => {
+    fetch("/api/ai/status")
+      .then((r) => r.json())
+      .then((data: { configured?: boolean }) => {
+        setAiConfigured(Boolean(data.configured));
+      })
+      .catch(() => setAiConfigured(false));
+  }, []);
 
   const send = useCallback(
     async (text: string) => {
@@ -142,11 +152,16 @@ export function AiTutorPanel({ className }: Props) {
         const data = (await res.json()) as {
           payload?: TutorChatMessage["payload"];
           demo?: boolean;
+          configured?: boolean;
           error?: string;
         };
 
-        if (data.error || !data.payload) {
+        if (!data.payload) {
           throw new Error(data.error ?? "No response");
+        }
+
+        if (typeof data.configured === "boolean") {
+          setAiConfigured(data.configured);
         }
 
         setMessages((m) => [
@@ -156,6 +171,7 @@ export function AiTutorPanel({ className }: Props) {
             role: "assistant",
             payload: data.payload,
             demo: data.demo,
+            configured: data.configured,
           },
         ]);
       } catch {
@@ -196,6 +212,17 @@ export function AiTutorPanel({ className }: Props) {
     <div className={cn("tutor-panel", className)}>
       <div className="tutor-panel__glow" aria-hidden />
 
+      {aiConfigured !== null && (
+        <p
+          className={cn(
+            "tutor-panel__ai-status arc-mono",
+            aiConfigured ? "tutor-panel__ai-status--on" : "tutor-panel__ai-status--off"
+          )}
+        >
+          {aiConfigured ? "● OpenAI connected" : "○ OpenAI not configured — add OPENAI_API_KEY"}
+        </p>
+      )}
+
       <div ref={listRef} className="tutor-panel__messages">
         {messages.map((m) =>
           m.role === "user" ? (
@@ -215,7 +242,12 @@ export function AiTutorPanel({ className }: Props) {
               <p>{m.text}</p>
             </motion.div>
           ) : m.payload ? (
-            <TutorLearningBlock key={m.id} payload={m.payload} demo={m.demo} />
+            <TutorLearningBlock
+              key={m.id}
+              payload={m.payload}
+              demo={m.demo}
+              configured={m.configured ?? aiConfigured ?? undefined}
+            />
           ) : null
         )}
 
