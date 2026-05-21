@@ -48,20 +48,18 @@ export function ClerkAuthSection({
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <Show when="signed-out">
-        <SignInButton {...signInMode} forceRedirectUrl="/learn">
+        <SignInButton {...signInMode} forceRedirectUrl="/dashboard">
           <button
             type="button"
-            className={buttonVariants({ variant: "ghost", size: "sm" })}
+            className="arc-nav-link !text-[var(--arc-fg)]"
           >
-            Sign in
+            Login
           </button>
         </SignInButton>
-        <SignUpButton {...signUpMode} forceRedirectUrl="/learn">
-          <button
-            type="button"
-            className={buttonVariants({ variant: "default", size: "sm" })}
-          >
-            Sign up
+        <span className="arc-mono text-[10px] text-[var(--arc-tertiary)]">/</span>
+        <SignUpButton {...signUpMode} forceRedirectUrl="/dashboard">
+          <button type="button" className="arc-btn arc-btn-primary !py-1.5 !text-xs">
+            Signup
           </button>
         </SignUpButton>
       </Show>

@@ -9,62 +9,42 @@ export type SiteNavSection = {
   links: SiteNavLink[];
 };
 
-/** Shared navigation for the site menu (mobile + desktop). */
+/** Mobile / overlay menu — v2 pages only */
 export const siteMenuSections: SiteNavSection[] = [
   {
     title: "Explore",
     links: [
-      { href: "/", label: "Home", description: "Landing and overview" },
-      { href: "/about", label: "About", description: "How ARC works" },
+      { href: "/", label: "Home", description: "Landing overview" },
+      { href: "/about", label: "About", description: "What ARC is" },
+      { href: "/courses", label: "Courses", description: "Structured learning paths" },
       { href: "/#pricing", label: "Pricing", description: "Plans and access" },
     ],
   },
   {
-    title: "Learn",
+    title: "Workspace",
     links: [
-      {
-        href: "/cognitive",
-        label: "Cognitive OS",
-        description: "Graphs and cognitive adviser",
-      },
-      {
-        href: "/companions",
-        label: "Tutors",
-        description: "Voice learning companions",
-      },
-      { href: "/classic", label: "Classic view", description: "Original ARC landing" },
-    ],
-  },
-  {
-    title: "Your learning",
-    links: [
-      {
-        href: "/learn",
-        label: "Learn OS",
-        description: "Mission control & all learning sections",
-      },
-      { href: "/my-journey", label: "My journey", description: "Timeline and milestones" },
-      { href: "/learn/create", label: "Create course", description: "AI-generated learning path" },
+      { href: "/dashboard", label: "Dashboard", description: "Progress and overview" },
+      { href: "/courses", label: "Courses", description: "Browse and continue" },
+      { href: "/notes", label: "Notes", description: "Capture and connect ideas" },
+      { href: "/files", label: "Files & Lectures", description: "Uploads and summaries" },
+      { href: "/tutor", label: "AI Tutor", description: "Ask about your material" },
     ],
   },
   {
     title: "Account",
     links: [
-      { href: "/sign-in", label: "Login / Sign up" },
-      { href: "/settings/profile", label: "Profile" },
-      { href: "/settings/account", label: "Account & security" },
-      { href: "/settings/preferences", label: "Preferences" },
-      { href: "/settings/privacy", label: "Privacy & data" },
+      { href: "/sign-in", label: "Login" },
+      { href: "/sign-up", label: "Sign up" },
+      { href: "/settings", label: "Settings", description: "Profile and preferences" },
     ],
   },
 ];
 
+/** Clarity top nav: Home · Courses · About · Pricing */
 export const desktopPrimaryLinks: SiteNavLink[] = [
   { href: "/", label: "Home" },
-  { href: "/learn", label: "Learn OS" },
+  { href: "/courses", label: "Courses" },
   { href: "/about", label: "About" },
-  { href: "/cognitive", label: "Cognitive" },
-  { href: "/companions", label: "Tutors" },
   { href: "/#pricing", label: "Pricing" },
 ];
 

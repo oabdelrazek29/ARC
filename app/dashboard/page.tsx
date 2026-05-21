@@ -1,6 +1,5 @@
-import { redirect } from "next/navigation";
+import { DashboardHome } from "@/components/dashboard/DashboardHome";
 
-/** Mission control lives at /learn */
-export default function DashboardRedirect() {
-  redirect("/learn");
+export default function DashboardPage() {
+  return <DashboardHome />;
 }

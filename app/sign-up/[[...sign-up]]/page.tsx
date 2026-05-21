@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { SignUp } from "@clerk/nextjs";
 
-import { AuthPageShell } from "@/components/auth/AuthPageShell";
+import { ClarityAuthShell } from "@/components/auth/ClarityAuthShell";
 import { SetupRequired } from "@/components/lms/SetupRequired";
+import { clerkAuthAppearance } from "@/lib/clerk/auth-appearance";
 import {
   getClerkAfterAuthUrl,
   isClerkConfigured,
@@ -13,14 +14,13 @@ export const dynamic = "force-dynamic";
 export default function SignUpPage() {
   if (!isClerkConfigured()) {
     return (
-      <div className="arc-auth-page arc-auth-page--setup">
+      <div className="clarity-auth-wrap">
         <SetupRequired
           title="Sign-up needs Clerk"
           items={[
             "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY (starts with pk_)",
             "CLERK_SECRET_KEY (starts with sk_)",
           ]}
-          hint="On Vercel: add both keys in Project → Settings → Environment Variables, then redeploy."
         />
       </div>
     );
@@ -29,24 +29,14 @@ export default function SignUpPage() {
   const afterAuth = getClerkAfterAuthUrl();
 
   return (
-    <AuthPageShell
-      colophon="§ — Begin · create your study account · Edition MMXXVI"
-      eyebrow="Welcome"
-      headline={
-        <>
-          Start your
-          <br />
-          learning desk.
-        </>
-      }
-      lead="One account for paths, graphs, and cognitive maps. Sign up and your workspace is ready."
-      formLabel="Sign up"
-      formTitle="Create your account"
+    <ClarityAuthShell
+      title="Create Your ARC Workspace"
+      lead="Start learning with a connected AI-powered study system."
       footer={
         <>
           Already have an account?{" "}
-          <Link href="/sign-in" className="arc-auth-inline-link">
-            Sign in →
+          <Link href="/sign-in" className="text-[var(--arc-accent)] hover:underline">
+            Sign in
           </Link>
         </>
       }
@@ -57,7 +47,8 @@ export default function SignUpPage() {
         signInUrl="/sign-in"
         forceRedirectUrl={afterAuth}
         fallbackRedirectUrl={afterAuth}
+        appearance={clerkAuthAppearance}
       />
-    </AuthPageShell>
+    </ClarityAuthShell>
   );
 }

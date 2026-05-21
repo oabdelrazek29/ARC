@@ -3,15 +3,26 @@
 /* ─── Light theme ─── */
 :root,
 [data-theme="light"] {
-  --arc-bg: #faf9f6;
-  --arc-surface: #f0ede6;
-  --arc-card: #f0ede6;
-  --arc-border: #e0ddd6;
-  --arc-fg: #1a1a18;
-  --arc-muted: #5a5a54;
-  --arc-tertiary: #8a8a84;
-  --arc-accent: #8a6a3a;
-  --arc-accent-soft: #a08050;
+  --arc-bg: #faf8f5;
+  --arc-surface: #f5f2ed;
+  --arc-card: #ffffff;
+  --arc-border: #e8e3dc;
+  --arc-fg: #1a1814;
+  --arc-muted: #6b6560;
+  --arc-tertiary: #a09890;
+  --arc-accent: #c4622d;
+  --arc-accent-hover: #b05525;
+  --arc-accent-soft: #d4714a;
+  --arc-accent-muted: rgba(196, 98, 45, 0.1);
+  --arc-mono-label: #8a827a;
+  --arc-elevated: #ffffff;
+  --bg-primary: var(--arc-bg);
+  --bg-surface: var(--arc-surface);
+  --bg-elevated: var(--arc-card);
+  --bg-border: var(--arc-border);
+  --text-primary: var(--arc-fg);
+  --text-secondary: var(--arc-muted);
+  --text-tertiary: var(--arc-tertiary);
   --arc-dot: rgba(26, 26, 24, 0.05);
   --arc-nav-bg: rgba(250, 249, 246, 0.92);
   --arc-btn-primary-bg: #1a1a18;
@@ -39,12 +50,23 @@
   --arc-bg: #0a0a0a;
   --arc-surface: #111111;
   --arc-card: #111111;
-  --arc-border: #1f1f1f;
-  --arc-fg: #f0ede6;
-  --arc-muted: #888880;
-  --arc-tertiary: #444440;
-  --arc-accent: #c9b99a;
-  --arc-accent-soft: #a89878;
+  --arc-border: #222222;
+  --arc-fg: #f0ede8;
+  --arc-muted: #8a8a8a;
+  --arc-tertiary: #555555;
+  --arc-accent: #e8825a;
+  --arc-accent-hover: #d4714a;
+  --arc-accent-soft: #e8825a;
+  --arc-accent-muted: rgba(232, 130, 90, 0.12);
+  --arc-mono-label: #666666;
+  --arc-elevated: #1a1a1a;
+  --bg-primary: var(--arc-bg);
+  --bg-surface: var(--arc-surface);
+  --bg-elevated: #1a1a1a;
+  --bg-border: var(--arc-border);
+  --text-primary: var(--arc-fg);
+  --text-secondary: var(--arc-muted);
+  --text-tertiary: var(--arc-tertiary);
   --arc-dot: rgba(240, 237, 230, 0.04);
   --arc-nav-bg: rgba(10, 10, 10, 0.92);
   --arc-btn-primary-bg: #f0ede6;
@@ -85,7 +107,23 @@
 }
 
 .arc-display {
-  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+.arc-display em,
+.arc-display-italic {
+  font-style: italic;
+  font-weight: 300;
+}
+
+.arc-section-title {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--arc-fg);
 }
 
 .arc-display-line {
@@ -93,9 +131,17 @@
 }
 
 .arc-body,
+.arc-prose {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--arc-muted);
+}
+
 .arc-lead {
-  font-family: var(--font-fraunces), Georgia, serif;
-  line-height: 1.75;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  line-height: 1.7;
   color: var(--arc-muted);
 }
 
@@ -203,15 +249,38 @@
   margin: 0;
 }
 
-/* ─── Navbar ─── */
+/* ─── Navbar (Clarity: transparent → frosted on scroll) ─── */
 .arc-navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 50;
   overflow: visible;
-  border-bottom: 1px solid var(--arc-border);
-  background: var(--arc-nav-bg);
-  backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  backdrop-filter: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.arc-navbar--scrolled {
+  border-bottom-color: var(--arc-border);
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(20px);
+}
+
+[data-theme="light"] .arc-navbar--scrolled {
+  background: rgba(250, 248, 245, 0.85);
+}
+
+.arc-main--marketing {
+  padding-top: 3.5rem;
+}
+
+@media (min-width: 768px) {
+  .arc-main--marketing {
+    padding-top: 4rem;
+  }
 }
 
 .arc-navbar__inner {
@@ -251,6 +320,8 @@
 .arc-brand-link__wordmark {
   font-family: var(--font-fraunces), Georgia, serif;
   font-size: 1.125rem;
+  font-style: italic;
+  font-weight: 400;
   line-height: 1;
   color: var(--arc-fg);
 }
@@ -273,8 +344,10 @@
 }
 
 .arc-nav-link {
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-size: 0.875rem;
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: none;
   color: var(--arc-muted);
   transition: color 0.2s ease;
 }
@@ -585,9 +658,18 @@
 }
 
 .arc-btn-primary {
-  background: var(--arc-btn-primary-bg);
-  color: var(--arc-btn-primary-fg);
-  border: 1px solid var(--arc-btn-primary-bg);
+  background: var(--arc-accent);
+  color: #0a0a0a;
+  border: 1px solid var(--arc-accent);
+}
+
+.arc-btn-primary:hover {
+  background: var(--arc-accent-hover);
+  border-color: var(--arc-accent-hover);
+}
+
+[data-theme="light"] .arc-btn-primary {
+  color: #faf8f5;
 }
 
 .arc-btn-secondary,

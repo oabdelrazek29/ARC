@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { SignIn } from "@clerk/nextjs";
 
-import { AuthPageShell } from "@/components/auth/AuthPageShell";
+import { ClarityAuthShell } from "@/components/auth/ClarityAuthShell";
 import { SetupRequired } from "@/components/lms/SetupRequired";
+import { clerkAuthAppearance } from "@/lib/clerk/auth-appearance";
 import {
   getClerkAfterAuthUrl,
   isClerkConfigured,
@@ -13,7 +14,7 @@ export const dynamic = "force-dynamic";
 export default function SignInPage() {
   if (!isClerkConfigured()) {
     return (
-      <div className="arc-auth-page arc-auth-page--setup">
+      <div className="clarity-auth-wrap">
         <SetupRequired
           title="Sign-in needs Clerk"
           items={[
@@ -29,24 +30,14 @@ export default function SignInPage() {
   const afterAuth = getClerkAfterAuthUrl();
 
   return (
-    <AuthPageShell
-      colophon="§ — Return · sign in to your study · Edition MMXXVI"
-      eyebrow="Welcome back"
-      headline={
-        <>
-          Pick up
-          <br />
-          where you left off.
-        </>
-      }
-      lead="Your graphs, paths, and cognitive maps are exactly as you left them. Sign in and the desk is set."
-      formLabel="Sign in"
-      formTitle="Welcome back"
+    <ClarityAuthShell
+      title="Welcome Back"
+      lead="Continue your learning journey."
       footer={
         <>
-          New to ARC?{" "}
-          <Link href="/sign-up" className="arc-auth-inline-link">
-            Create an account →
+          Don&apos;t have an account?{" "}
+          <Link href="/sign-up" className="text-[var(--arc-accent)] hover:underline">
+            Create one
           </Link>
         </>
       }
@@ -57,7 +48,8 @@ export default function SignInPage() {
         signUpUrl="/sign-up"
         forceRedirectUrl={afterAuth}
         fallbackRedirectUrl={afterAuth}
+        appearance={clerkAuthAppearance}
       />
-    </AuthPageShell>
+    </ClarityAuthShell>
   );
 }

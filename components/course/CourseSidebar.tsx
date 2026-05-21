@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { memo } from "react";
 import { CheckCircle2, Circle, Lock } from "lucide-react";
 
@@ -9,11 +10,17 @@ import type { Course, CourseLesson } from "@/types/course";
 
 type Props = {
   course: Course;
+  courseId?: string;
   activeLessonId?: string;
   onSelectLesson: (lesson: CourseLesson) => void;
 };
 
-function CourseSidebarInner({ course, activeLessonId, onSelectLesson }: Props) {
+function CourseSidebarInner({
+  course,
+  courseId,
+  activeLessonId,
+  onSelectLesson,
+}: Props) {
   const chapters = course.phases.flatMap((p) => p.modules);
 
   return (
@@ -59,31 +66,47 @@ function CourseSidebarInner({ course, activeLessonId, onSelectLesson }: Props) {
                   : lesson.unlocked
                     ? Circle
                     : Lock;
+                const btnClass = cn(
+                  "arc-course-lesson-btn w-full",
+                  activeLessonId === lesson.id &&
+                    "arc-course-lesson-btn--active",
+                  !lesson.unlocked && "opacity-50"
+                );
+                const inner = (
+                  <>
+                    <Icon
+                      className={cn(
+                        "h-3.5 w-3.5 shrink-0",
+                        lesson.completed && "text-[var(--arc-accent)]"
+                      )}
+                      aria-hidden
+                    />
+                    <span className="truncate text-left text-xs">
+                      {lesson.title}
+                      {lesson.isFree ? " · Free" : ""}
+                    </span>
+                  </>
+                );
                 return (
                   <li key={lesson.id}>
-                    <button
-                      type="button"
-                      disabled={!lesson.unlocked}
-                      onClick={() => onSelectLesson(lesson)}
-                      className={cn(
-                        "arc-course-lesson-btn w-full",
-                        activeLessonId === lesson.id &&
-                          "arc-course-lesson-btn--active",
-                        !lesson.unlocked && "opacity-50"
-                      )}
-                    >
-                      <Icon
-                        className={cn(
-                          "h-3.5 w-3.5 shrink-0",
-                          lesson.completed && "text-[var(--arc-accent)]"
-                        )}
-                        aria-hidden
-                      />
-                      <span className="truncate text-left text-xs">
-                        {lesson.title}
-                        {lesson.isFree ? " · Free" : ""}
-                      </span>
-                    </button>
+                    {courseId && lesson.unlocked ? (
+                      <Link
+                        href={`/courses/${courseId}/lessons/${lesson.id}`}
+                        onClick={() => onSelectLesson(lesson)}
+                        className={btnClass}
+                      >
+                        {inner}
+                      </Link>
+                    ) : (
+                      <button
+                        type="button"
+                        disabled={!lesson.unlocked}
+                        onClick={() => onSelectLesson(lesson)}
+                        className={btnClass}
+                      >
+                        {inner}
+                      </button>
+                    )}
                   </li>
                 );
               })}

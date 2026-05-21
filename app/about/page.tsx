@@ -2,100 +2,65 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ArcButton } from "@/components/arc-ui/ArcButton";
-import { ArcWatermark } from "@/components/layout/ArcWatermark";
+import { TypewriterLabel } from "@/components/TypewriterLabel";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "ARC is a learning system built for people who want real understanding, not surface level progress.",
+    "ARC is an AI-powered learning platform for focused, organized study.",
 };
 
 export default function AboutPage() {
   return (
-    <div className="arc-page arc-watermark-wrap relative">
-      <article className="arc-section-wide py-20 md:py-28">
-        <p className="arc-section-marker">
-          § From the desk · About ARC
-          <br />
-          Edition MMXXVI · Vol. II
+    <article className="clarity-container clarity-section">
+      <TypewriterLabel
+        text="§ From the desk · About ARC · Edition MMXXVI · Vol. II"
+        className="arc-section-marker block"
+      />
+
+      <h1 className="arc-section-title mt-10">What Is ARC</h1>
+
+      <div className="arc-body mt-10 max-w-2xl space-y-6 text-[17px] leading-relaxed">
+        <p>
+          ARC is an AI-powered learning platform designed to make studying feel
+          focused, organized, and actually useful. Instead of switching between
+          ten different apps for notes, lectures, files, coding, and coursework
+          — everything works together in one connected system.
         </p>
+        <p>
+          ARC helps students learn through structured courses, intelligent
+          tutoring, immersive reading spaces, and adaptive study tools that
+          understand how they learn over time.
+        </p>
+        <p>
+          The goal is simple. Make learning feel less overwhelming and more
+          meaningful.
+        </p>
+      </div>
 
-        <h1 className="arc-display mt-10 max-w-3xl leading-tight">
-          ARC is a learning system built for people who want real understanding,
-          not surface level progress
-        </h1>
+      <blockquote className="arc-display mt-16 max-w-xl text-2xl italic text-[var(--arc-accent)]">
+        Studying should not feel messy, distracting, or disconnected.
+      </blockquote>
 
-        <div className="arc-prose-loose mt-14 max-w-2xl text-base leading-relaxed text-[var(--arc-muted)]">
-          <p>
-            ARC exists because learning online has become fragmented, scattered,
-            and inefficient. Most people collect information without ever
-            building real understanding.
-          </p>
-          <p>
-            We wanted to change that by creating a system that organizes
-            knowledge into a clear path that actually makes sense as you move
-            through it.
-          </p>
-          <p>
-            Learning should not feel like guessing what comes next. It should
-            feel structured, guided, and understandable at every step.
-          </p>
-        </div>
+      <div className="arc-body mt-12 max-w-2xl space-y-6 text-[17px] leading-relaxed">
+        <p>
+          Most students constantly switch between tabs, notes, videos,
+          assignments, PDFs, and random AI tools. ARC brings everything together
+          into one calm workspace where courses, notes, lectures, files,
+          projects, and tutoring all work together naturally.
+        </p>
+        <p>
+          Instead of acting like another chatbot, ARC becomes part of the
+          learning experience itself.
+        </p>
+      </div>
 
-        <div className="arc-prose-loose mt-20 max-w-2xl">
-          <section className="arc-principle">
-            <h2 className="arc-heading text-xl">Structured Learning</h2>
-            <p className="arc-lead mt-4 text-sm leading-relaxed">
-              Every topic is broken into smaller parts that connect logically.
-              Instead of random resources, you get a path that builds
-              understanding step by step.
-            </p>
-          </section>
-
-          <section className="arc-principle">
-            <h2 className="arc-heading text-xl">Adaptive System</h2>
-            <p className="arc-lead mt-4 text-sm leading-relaxed">
-              ARC adjusts based on how you learn. If something is difficult, it
-              slows down and reshapes the explanation. If you move quickly, it
-              keeps pace with you naturally.
-            </p>
-          </section>
-
-          <section className="arc-principle">
-            <h2 className="arc-heading text-xl">Focus on Understanding</h2>
-            <p className="arc-lead mt-4 text-sm leading-relaxed">
-              The goal is not completion. The goal is clarity. ARC is designed
-              to help you actually understand what you are learning, not just
-              move through it.
-            </p>
-          </section>
-
-          <section className="arc-principle">
-            <h2 className="arc-heading text-xl">Your Data Stays Yours</h2>
-            <p className="arc-lead mt-4 text-sm leading-relaxed">
-              Your progress, your sessions, and your learning paths belong to
-              you. Nothing is used outside your experience inside the system.
-            </p>
-          </section>
-        </div>
-
-        <div className="arc-prose-loose mt-20 max-w-2xl text-base leading-relaxed text-[var(--arc-muted)]">
-          <p>
-            ARC is not about replacing effort. It is about removing confusion so
-            your effort actually leads somewhere.
-          </p>
-          <p>If you bring curiosity, ARC gives you structure.</p>
-        </div>
-
-        <div className="mt-16 flex flex-wrap gap-3">
-          <ArcButton href="/cognitive">Enter ARC →</ArcButton>
-          <Link href="mailto:hello@arc.local" className="arc-btn arc-btn-ghost">
-            Email the team →
-          </Link>
-        </div>
-      </article>
-
-      <ArcWatermark />
-    </div>
+      <div className="mt-16 flex flex-wrap gap-3">
+        <ArcButton href="/sign-up">Start Learning</ArcButton>
+        <ArcButton href="/courses" variant="ghost">
+          Browse courses →
+        </ArcButton>
+      </div>
+    </article>
   );
 }

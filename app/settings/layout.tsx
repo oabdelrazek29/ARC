@@ -1,3 +1,4 @@
+import { DashboardShell } from "@/components/dashboard/DashboardShell";
 import { SettingsShell } from "@/components/settings/SettingsShell";
 
 export default function SettingsLayout({
@@ -5,5 +6,9 @@ export default function SettingsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <SettingsShell>{children}</SettingsShell>;
+  return (
+    <DashboardShell>
+      <SettingsShell>{children}</SettingsShell>
+    </DashboardShell>
+  );
 }

@@ -90,6 +90,7 @@ export function CourseWorkspace({ tree, goalTitle }: Props) {
       <aside className="arc-course-workspace__sidebar">
         <CourseSidebar
           course={course}
+          courseId={tree.id}
           activeLessonId={activeLesson?.id}
           onSelectLesson={setActiveLesson}
         />

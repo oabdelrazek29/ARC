@@ -51,8 +51,8 @@ export function AuthProvider({ children, publishableKey }: Props) {
         publishableKey={key}
         ui={ui}
         appearance={arcClerkAppearance}
-        signInFallbackRedirectUrl="/learn"
-        signUpFallbackRedirectUrl="/learn"
+        signInFallbackRedirectUrl="/dashboard"
+        signUpFallbackRedirectUrl="/dashboard"
         afterSignOutUrl="/"
       >
         {children}

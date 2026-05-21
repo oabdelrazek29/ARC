@@ -19,7 +19,7 @@ export function TutorSection() {
   return (
     <div className="arc-platform-section arc-page arc-dot-grid !py-6">
       <PlatformSectionHeader
-        marker="Instructor Master"
+        marker="AI Tutor"
         title="Your private AI professor"
         lead="Teaching Mode is active on the right — lesson plans, weakness analysis, roadmaps, and recall training. The instructor monitors all platform activity."
       />

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Fraunces, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 
-import { Navbar } from "@/components/layout/Navbar";
-import { SiteFooter } from "@/components/layout/SiteFooter";
+import { LayoutChrome } from "@/components/layout/LayoutChrome";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { getClerkPublishableKey } from "@/lib/clerk/env";
 
 import "./globals.css";
 import "./arc-theme.css";
+import "./arc-clarity.css";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -22,6 +22,12 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["400", "500"],
 });
 
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+});
+
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
   "https://arc-oabdelrazek29s-projects.vercel.app";
@@ -33,11 +39,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   applicationName: "ARC",
   title: {
-    default: "ARC — Cognitive Learning OS",
+    default: "ARC — AI Learning System",
     template: "%s | ARC",
   },
   description:
-    "Learn with structure, understand with clarity. ARC builds a path that adapts as you go.",
+    "The AI learning system built for deep study — structured courses, intelligent tutoring, and adaptive learning in one calm workspace.",
   icons: {
     icon: [{ url: `/icon.svg?${iconVersion}`, type: "image/svg+xml" }],
     apple: [{ url: `/apple-icon.svg?${iconVersion}`, type: "image/svg+xml" }],
@@ -68,13 +74,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fraunces.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${fraunces.variable} ${jetbrainsMono.variable} ${inter.variable} arc-root antialiased`}
       >
         <ThemeProvider>
           <AuthProvider publishableKey={clerkPublishableKey}>
-            <Navbar />
-            <main className="arc-main">{children}</main>
-            <SiteFooter />
+            <LayoutChrome>{children}</LayoutChrome>
           </AuthProvider>
         </ThemeProvider>
       </body>

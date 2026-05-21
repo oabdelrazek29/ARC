@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { BrandLink } from "@/components/brand/BrandLink";
 import { ClerkAuthSection } from "@/components/layout/ClerkAuthSection";
@@ -12,6 +13,14 @@ import { cn } from "@/lib/utils";
 
 export function Navbar() {
   const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 80);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const linkClass = (href: string) =>
     cn(
@@ -26,8 +35,10 @@ export function Navbar() {
     );
 
   return (
-    <header className="arc-navbar">
-      <nav className="arc-navbar__inner">
+    <header
+      className={cn("arc-navbar", scrolled && "arc-navbar--scrolled")}
+    >
+      <nav className="arc-navbar__inner clarity-container !max-w-[1100px]">
         <BrandLink className="shrink-0" />
 
         <div className="arc-nav-center">
@@ -40,13 +51,7 @@ export function Navbar() {
 
         <div className="arc-navbar__actions">
           <ThemeToggle className="hidden sm:inline-flex" />
-          <ClerkAuthSection className="hidden lg:flex" />
-          <Link
-            href="/settings"
-            className="arc-nav-link hidden text-sm lg:inline"
-          >
-            Settings
-          </Link>
+          <ClerkAuthSection className="hidden md:flex" />
           <SiteMenu />
         </div>
       </nav>

@@ -25,6 +25,6 @@ export function isClerkConfigured(): boolean {
 export function getClerkAfterAuthUrl(): string {
   return (
     clean(process.env.NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL) ??
-    "/learn"
+    "/dashboard"
   );
 }

@@ -58,7 +58,6 @@ export function IntegrationStatusPanel() {
       <p className="arc-mono mt-3 text-[10px] text-[var(--arc-tertiary)]">
         Clerk needs <strong>both</strong> pk_ and sk_ keys. Local: .env.local then restart dev.
         Production: same names in Vercel → Environment Variables → <strong>Redeploy</strong>.
-        Add your site URL in Clerk Dashboard → Domains.
       </p>
     </div>
   );
