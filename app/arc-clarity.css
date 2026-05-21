@@ -6,16 +6,7 @@
   padding: 0 2rem;
 }
 
-@media (max-width: 480px) {
-  .clarity-container {
-    padding-left: 1.125rem;
-    padding-right: 1.125rem;
-  }
-
-  .clarity-hero {
-    padding-top: 3.5rem;
-  }
-}
+/* Mobile padding handled in arc-mobile.css (≤767px) */
 
 .clarity-section {
   padding: 120px 0;

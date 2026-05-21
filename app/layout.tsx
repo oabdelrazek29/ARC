@@ -9,6 +9,7 @@ import { getClerkPublishableKey } from "@/lib/clerk/env";
 import "./globals.css";
 import "./arc-theme.css";
 import "./arc-clarity.css";
+import "./arc-mobile.css";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",

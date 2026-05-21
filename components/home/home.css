@@ -129,16 +129,7 @@
   }
 }
 
-@media (max-width: 480px) {
-  .hero-dropcap {
-    margin-top: 1.5rem;
-    font-size: clamp(1.5rem, 6.8vw, 2.75rem);
-  }
-
-  .hero-dropcap__line1 {
-    letter-spacing: -0.03em;
-  }
-}
+/* Hero mobile sizing — see arc-mobile.css */
 
 /* Figure mockups — theme-aware */
 .arc-figure {
